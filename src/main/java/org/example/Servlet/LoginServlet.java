@@ -19,6 +19,15 @@ public class LoginServlet extends HttpServlet {
     private CustomerDAO customerDAO;
 
     /**
+     * Khởi tạo servlet - khởi tạo CustomerDAO
+     */
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        customerDAO = new CustomerDAO();
+    }
+
+    /**
      * Xử lý GET request - chuyển hướng đến trang login
      */
     @Override
@@ -50,8 +59,21 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        // Kiểm tra đăng nhập Customer từ database
-        Customer customer = customerDAO.validateLogin(username, password);
+        // ======= DATA ẢO ĐỂ TEST GIAO DIỆN =======
+        // TODO: Uncomment phần dưới để dùng database thật
+        // Customer customer = customerDAO.validateLogin(username, password);
+
+        // DATA ẢO - Tạo customer demo (username: demo, password: 123456)
+        Customer customer = null;
+        if ("demo".equals(username) && "123456".equals(password)) {
+            customer = new Customer();
+            customer.setCustomerId(1);
+            customer.setUsername("demo");
+            customer.setName("Nguyễn Văn A");
+            customer.setEmail("demo@garaman.vn");
+            customer.setPhone("0901234567");
+            customer.setAddress("123 Đường ABC, Quận 1, TP.HCM");
+        }
 
         if (customer != null) {
             // Đăng nhập thành công - Tạo session

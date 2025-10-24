@@ -20,7 +20,7 @@ public class CustomerDAO {
      * @return Customer object nếu đăng nhập thành công, null nếu thất bại
      */
     public Customer validateLogin(String username, String password) {
-        String sql = "SELECT * FROM Customer WHERE username = ? AND password = ?";
+        String sql = "SELECT * FROM employee WHERE username = ? AND password = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
