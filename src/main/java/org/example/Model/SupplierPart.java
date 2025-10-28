@@ -10,24 +10,28 @@ public class SupplierPart implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer supplierPartId;
+    private int supplierPartId;
     private String description;
-    private Float unitPrice; // Giá từ nhà cung cấp
-    private Integer stockQty; // Số lượng tồn kho
+    private float price;
+    private int quantity;
 
     // Foreign keys
     private Integer supplierId; // FK to Supplier
     private Integer partId; // FK to Part
+    
+    // Thông tin bổ sung (không lưu DB, chỉ dùng để hiển thị)
+    private transient String partName;
+    private transient String supplierName;
 
     // Constructors
 
     public SupplierPart() {
     }
 
-    public SupplierPart(String description, Float unitPrice, Integer stockQty, Integer supplierId, Integer partId) {
+    public SupplierPart(String description, Float price, Integer quantity, Integer supplierId, Integer partId) {
         this.description = description;
-        this.unitPrice = unitPrice;
-        this.stockQty = stockQty;
+        this.price = price;
+        this.quantity = quantity;
         this.supplierId = supplierId;
         this.partId = partId;
     }
@@ -50,20 +54,20 @@ public class SupplierPart implements Serializable {
         this.description = description;
     }
 
-    public Float getUnitPrice() {
-        return unitPrice;
+    public float getPrice() {
+        return price;
     }
 
-    public void setUnitPrice(Float unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public Integer getStockQty() {
-        return stockQty;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setStockQty(Integer stockQty) {
-        this.stockQty = stockQty;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Integer getSupplierId() {
@@ -82,13 +86,29 @@ public class SupplierPart implements Serializable {
         this.partId = partId;
     }
 
+    public String getPartName() {
+        return partName;
+    }
+
+    public void setPartName(String partName) {
+        this.partName = partName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
     @Override
     public String toString() {
         return "SupplierPart{" +
                 "supplierPartId=" + supplierPartId +
                 ", description='" + description + '\'' +
-                ", unitPrice=" + unitPrice +
-                ", stockQty=" + stockQty +
+                ", price=" + price +
+                ", quantity=" + quantity +
                 ", supplierId=" + supplierId +
                 ", partId=" + partId +
                 '}';

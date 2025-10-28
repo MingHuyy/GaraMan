@@ -2,7 +2,6 @@ package org.example.DAO;
 
 import org.example.Model.Service;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,11 @@ import java.util.List;
 /**
  * DAO để thao tác với bảng Service
  */
-public class ServiceDAO {
+public class ServiceDAO extends DAO {
+    
+    public ServiceDAO() {
+        super();
+    }
 
     /**
      * Tìm kiếm dịch vụ theo tên
@@ -24,8 +27,7 @@ public class ServiceDAO {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT * FROM Service WHERE name LIKE ? ORDER BY name";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, "%" + keyword + "%");
 
@@ -56,8 +58,7 @@ public class ServiceDAO {
         List<Service> services = new ArrayList<>();
         String sql = "SELECT * FROM Service ORDER BY name";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = con.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -85,8 +86,7 @@ public class ServiceDAO {
     public Service getServiceById(Integer serviceId) {
         String sql = "SELECT * FROM Service WHERE service_id = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, serviceId);
 

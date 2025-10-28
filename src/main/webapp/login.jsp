@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -44,7 +44,7 @@
         }
 
         .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             padding: 40px 30px;
             text-align: center;
             color: white;
@@ -102,9 +102,9 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #3b82f6;
             background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .form-group input::placeholder {
@@ -134,7 +134,7 @@
 
         .forgot-password {
             font-size: 14px;
-            color: #667eea;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 500;
         }
@@ -146,14 +146,21 @@
         .btn-login {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white !important;
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-login:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
         }
 
         .alert {
@@ -183,7 +190,7 @@
         }
 
         .register-link a {
-            color: #667eea;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 600;
         }
@@ -203,7 +210,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #667eea;
+            color: #3b82f6;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
@@ -214,10 +221,10 @@
         }
 
         .btn-home:hover {
-            background: #667eea;
+            background: #3b82f6;
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         @media (max-width: 480px) {
@@ -268,11 +275,6 @@
                 </div>
             <% } %>
             
-            <% if (success != null && "logout".equals(success)) { %>
-                <div class="alert alert-success">
-                    ✓ Đăng xuất thành công!
-                </div>
-            <% } %>
             
             <form action="login" method="post">
                 <div class="form-group">
@@ -314,7 +316,7 @@
             </div>
             
             <div class="back-to-home">
-                <a href="MainCustomer.jsp" class="btn-home">
+                <a href="HomePage.jsp" class="btn-home">
                     🏠 Về trang chủ
                 </a>
             </div>

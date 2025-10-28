@@ -2,7 +2,6 @@ package org.example.DAO;
 
 import org.example.Model.Customer;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +9,11 @@ import java.sql.SQLException;
 /**
  * DAO để thao tác với bảng Customer
  */
-public class CustomerDAO {
+public class CustomerDAO extends DAO {
+    
+    public CustomerDAO() {
+        super();
+    }
 
     /**
      * Xác thực đăng nhập của Customer
@@ -22,8 +25,7 @@ public class CustomerDAO {
     public Customer validateLogin(String username, String password) {
         String sql = "SELECT * FROM employee WHERE username = ? AND password = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, username);
             stmt.setString(2, password); // TODO: Nên hash password trong thực tế
@@ -57,8 +59,7 @@ public class CustomerDAO {
     public Customer getCustomerById(Integer customerId) {
         String sql = "SELECT * FROM Customer WHERE customer_id = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, customerId);
 
@@ -91,8 +92,7 @@ public class CustomerDAO {
     public Customer getCustomerByUsername(String username) {
         String sql = "SELECT * FROM Customer WHERE username = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, username);
 
@@ -125,8 +125,7 @@ public class CustomerDAO {
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO Customer (username, password, phone, name, email, address) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, customer.getUsername());
             stmt.setString(2, customer.getPassword()); // TODO: Hash password
@@ -151,8 +150,7 @@ public class CustomerDAO {
     public boolean updateCustomer(Customer customer) {
         String sql = "UPDATE Customer SET username = ?, phone = ?, name = ?, email = ?, address = ? WHERE customer_id = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, customer.getUsername());
             stmt.setString(2, customer.getPhone());

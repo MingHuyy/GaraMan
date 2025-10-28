@@ -3,7 +3,6 @@ package org.example.DAO;
 import org.example.Model.Part;
 import org.example.Model.SupplierPart;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,20 +12,17 @@ import java.util.List;
 /**
  * DAO để thao tác với bảng Part và SupplierPart
  */
-public class PartDAO {
+public class PartDAO extends DAO {
+    
+    public PartDAO() {
+        super();
+    }
 
-    /**
-     * Tìm kiếm phụ tùng theo tên
-     * 
-     * @param keyword từ khóa tìm kiếm
-     * @return danh sách phụ tùng
-     */
     public List<Part> searchByName(String keyword) {
         List<Part> parts = new ArrayList<>();
         String sql = "SELECT * FROM Part WHERE name LIKE ? ORDER BY name";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, "%" + keyword + "%");
 
@@ -45,18 +41,11 @@ public class PartDAO {
         return parts;
     }
 
-    /**
-     * Lấy danh sách nhà cung cấp của một phụ tùng
-     * 
-     * @param partId ID của phụ tùng
-     * @return danh sách SupplierPart
-     */
     public List<SupplierPart> getSupplierPartsByPartId(Integer partId) {
         List<SupplierPart> supplierParts = new ArrayList<>();
-        String sql = "SELECT * FROM SupplierPart WHERE part_id = ? ORDER BY unit_price";
+        String sql = "SELECT * FROM SupplierPart WHERE part_id = ? ORDER BY price";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, partId);
 
@@ -65,8 +54,8 @@ public class PartDAO {
                     SupplierPart sp = new SupplierPart();
                     sp.setSupplierPartId(rs.getInt("supplier_part_id"));
                     sp.setDescription(rs.getString("description"));
-                    sp.setUnitPrice(rs.getFloat("unit_price"));
-                    sp.setStockQty(rs.getInt("stock_qty"));
+                    sp.setPrice(rs.getFloat("price"));
+                    sp.setQuantity(rs.getInt("quantity"));
                     sp.setSupplierId(rs.getInt("supplier_id"));
                     sp.setPartId(rs.getInt("part_id"));
                     supplierParts.add(sp);
@@ -79,17 +68,11 @@ public class PartDAO {
         return supplierParts;
     }
 
-    /**
-     * Lấy tất cả phụ tùng
-     * 
-     * @return danh sách tất cả phụ tùng
-     */
     public List<Part> getAllParts() {
         List<Part> parts = new ArrayList<>();
         String sql = "SELECT * FROM Part ORDER BY name";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+        try (PreparedStatement stmt = con.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -105,17 +88,11 @@ public class PartDAO {
         return parts;
     }
 
-    /**
-     * Lấy phụ tùng theo ID
-     * 
-     * @param partId ID của phụ tùng
-     * @return Part object hoặc null
-     */
+
     public Part getPartById(Integer partId) {
         String sql = "SELECT * FROM Part WHERE part_id = ?";
 
-        try (Connection conn = DatabaseConfig.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setInt(1, partId);
 

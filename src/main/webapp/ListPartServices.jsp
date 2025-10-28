@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="org.example.Model.Service" %>
-<%@ page import="org.example.Model.Part" %>
 <%@ page import="org.example.Model.SupplierPart" %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -18,16 +17,17 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f9fafb;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            min-height: 100vh;
             color: #333;
         }
 
         /* Header */
         header {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-            color: white;
+            background: white;
+            color: #1e40af;
             padding: 0;
-            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 2px 10px rgba(59, 130, 246, 0.15);
         }
 
         nav {
@@ -46,14 +46,19 @@
             font-size: 24px;
             font-weight: 700;
             text-decoration: none;
-            color: white;
+            color: #1e40af;
         }
 
         .nav-links a {
-            color: white;
+            color: #3b82f6;
             text-decoration: none;
             margin-left: 2rem;
             font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #1e40af;
         }
 
         /* Container */
@@ -69,7 +74,19 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .search-keyword {
+            text-align: center;
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .search-keyword strong {
+            color: #3b82f6;
+            font-weight: 600;
         }
 
         .search-form {
@@ -80,20 +97,22 @@
         .search-input {
             flex: 1;
             padding: 15px 20px;
-            border: 2px solid #fecaca;
+            border: 2px solid #bfdbfe;
             border-radius: 10px;
             font-size: 16px;
-            background: #fef2f2;
+            background: #eff6ff;
+            color: #1e40af;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: #dc2626;
+            border-color: #60a5fa;
             background: white;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
         }
 
         .btn-search {
-            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            background: #3b82f6;
             color: white;
             padding: 15px 40px;
             border: none;
@@ -101,6 +120,12 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-search:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
         }
 
         /* Results Grid */
@@ -123,17 +148,17 @@
             gap: 10px;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #dc2626;
+            border-bottom: 2px solid #3b82f6;
         }
 
         .section-header h2 {
-            color: #dc2626;
+            color: #1e40af;
             font-size: 24px;
             font-weight: 700;
         }
 
         .section-header .count {
-            background: #dc2626;
+            background: #3b82f6;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -143,21 +168,22 @@
 
         /* Service Card */
         .service-item {
-            background: #fef2f2;
-            border-left: 4px solid #dc2626;
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
             padding: 20px;
             margin-bottom: 15px;
             border-radius: 8px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .service-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.15);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
         }
 
         .service-item h3 {
-            color: #dc2626;
+            color: #1e40af;
             font-size: 18px;
             margin-bottom: 8px;
         }
@@ -174,11 +200,11 @@
             justify-content: space-between;
             align-items: center;
             padding-top: 10px;
-            border-top: 1px solid #fecaca;
+            border-top: 1px solid #bfdbfe;
         }
 
         .service-price {
-            color: #dc2626;
+            color: #3b82f6;
             font-size: 20px;
             font-weight: 700;
         }
@@ -190,23 +216,44 @@
 
         /* Part Card */
         .part-item {
-            background: #fef2f2;
+            background: #eff6ff;
             padding: 20px;
             margin-bottom: 15px;
             border-radius: 8px;
-            border: 2px solid #fecaca;
+            border: 2px solid #bfdbfe;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .part-item:hover {
-            border-color: #dc2626;
-            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.15);
+            border-color: #3b82f6;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+            transform: scale(1.02);
         }
 
         .part-item h3 {
-            color: #dc2626;
+            color: #1e40af;
             font-size: 18px;
             margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .part-name {
+            flex: 1;
+        }
+        
+        .part-supplier {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .part-supplier strong {
+            color: #1e40af;
         }
 
         .supplier-info {
@@ -214,7 +261,7 @@
             padding: 12px;
             margin-top: 10px;
             border-radius: 6px;
-            border-left: 3px solid #dc2626;
+            border-left: 3px solid #3b82f6;
         }
 
         .supplier-name {
@@ -232,7 +279,7 @@
         }
 
         .supplier-price {
-            color: #dc2626;
+            color: #3b82f6;
             font-size: 18px;
             font-weight: 700;
         }
@@ -243,7 +290,7 @@
         }
 
         .stock-low {
-            color: #dc2626;
+            color: #f59e0b;
         }
 
         /* No Results */
@@ -273,13 +320,13 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="MainCustomer.jsp" class="logo">
+            <a href="HomePage.jsp" class="logo">
                 <span>🚗</span>
                 <span>GaraMan</span>
             </a>
             <div class="nav-links">
-                <a href="MainCustomer.jsp">Trang chủ</a>
-                <a href="login.jsp">Đăng nhập</a>
+                <a href="HomePage.jsp">Trang chủ</a>
+                <a href="SearchPage.jsp">← Quay lại tìm kiếm</a>
             </div>
         </nav>
     </header>
@@ -301,9 +348,12 @@
         </div>
 
         <%
-            String keyword = request.getParameter("keyword");
+            String keyword = (String) request.getAttribute("keyword");
+            if (keyword == null) {
+                keyword = request.getParameter("keyword");
+            }
+            List<SupplierPart> supplierParts = (List<SupplierPart>) request.getAttribute("supplierParts");
             List<Service> services = (List<Service>) request.getAttribute("services");
-            List<Part> parts = (List<Part>) request.getAttribute("parts");
             
             if (keyword == null || keyword.trim().isEmpty()) {
         %>
@@ -315,8 +365,57 @@
         <%
             } else {
         %>
+            <!-- Từ khóa tìm kiếm -->
+            <div class="search-keyword">
+                Kết quả tìm kiếm của: <strong>"<%= keyword %>"</strong>
+            </div>
+            
+            <!-- Kết quả tìm kiếm - 2 cột -->
             <div class="results-container">
-                <!-- Dịch Vụ -->
+                <!-- Phụ Tùng - Bên Trái -->
+                <div class="results-section">
+                    <div class="section-header">
+                        <h2>⚙️ Phụ Tùng</h2>
+                        <span class="count"><%= supplierParts != null ? supplierParts.size() : 0 %></span>
+                    </div>
+
+                    <%
+                        if (supplierParts != null && !supplierParts.isEmpty()) {
+                            for (SupplierPart sp : supplierParts) {
+                    %>
+                        <a href="part?id=<%= sp.getSupplierPartId() %>" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="part-item">
+                                <h3>
+                                    <span class="part-name"><%= sp.getPartName() %></span>
+                                    <span class="part-supplier"><strong>Hãng:</strong> <%= sp.getSupplierName() %></span>
+                                </h3>
+                                
+                                <div class="supplier-info">
+                                <div class="supplier-details">
+                                    <span class="supplier-price">
+                                        💰 <%= String.format("%,.0f", sp.getPrice()) %>đ
+                                    </span>
+                                        <span class="supplier-stock <%= sp.getQuantity() < 5 ? "stock-low" : "" %>">
+                                            <%= sp.getQuantity() > 0 ? "✓ Còn hàng: " + sp.getQuantity() : "⚠️ Hết hàng" %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <div class="no-results">
+                            <div class="no-results-icon">⚙️</div>
+                            <p>Không tìm thấy phụ tùng nào</p>
+                        </div>
+                    <%
+                        }
+                    %>
+                </div>
+
+                <!-- Dịch Vụ - Bên Phải -->
                 <div class="results-section">
                     <div class="section-header">
                         <h2>🔧 Dịch Vụ</h2>
@@ -327,22 +426,22 @@
                         if (services != null && !services.isEmpty()) {
                             for (Service service : services) {
                     %>
-                        <div class="service-item">
-                            <h3><%= service.getName() %></h3>
-                            <% if (service.getDescription() != null && !service.getDescription().isEmpty()) { %>
-                                <p class="description"><%= service.getDescription() %></p>
-                            <% } %>
-                            <div class="service-details">
-                                <span class="service-price">
-                                    <%= String.format("%,.0f", service.getPrice()) %>đ
-                                </span>
-                                <% if (service.getDuration() != null) { %>
-                                    <span class="service-duration">
-                                        ⏱️ <%= service.getDuration() %> phút
+                        <a href="service?id=<%= service.getServiceId() %>" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="service-item">
+                                <h3><%= service.getName() %></h3>
+                                
+                                <div class="service-details">
+                                    <span class="service-price">
+                                        💰 <%= String.format("%,.0f", service.getPrice()) %>đ
                                     </span>
-                                <% } %>
+                                    <% if (service.getDuration() != null && service.getDuration() > 0) { %>
+                                        <span class="service-duration">
+                                            ⏱️ <%= service.getDuration() %> phút
+                                        </span>
+                                    <% } %>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     <%
                             }
                         } else {
@@ -350,61 +449,6 @@
                         <div class="no-results">
                             <div class="no-results-icon">🔧</div>
                             <p>Không tìm thấy dịch vụ nào</p>
-                        </div>
-                    <%
-                        }
-                    %>
-                </div>
-
-                <!-- Phụ Tùng -->
-                <div class="results-section">
-                    <div class="section-header">
-                        <h2>⚙️ Phụ Tùng</h2>
-                        <span class="count"><%= parts != null ? parts.size() : 0 %></span>
-                    </div>
-
-                    <%
-                        if (parts != null && !parts.isEmpty()) {
-                            for (Part part : parts) {
-                                // Lấy danh sách nhà cung cấp cho phụ tùng này
-                                List<SupplierPart> supplierParts = (List<SupplierPart>) request.getAttribute("supplierParts_" + part.getPartId());
-                    %>
-                        <div class="part-item">
-                            <h3><%= part.getName() %></h3>
-                            
-                            <%
-                                if (supplierParts != null && !supplierParts.isEmpty()) {
-                                    for (SupplierPart sp : supplierParts) {
-                            %>
-                                <div class="supplier-info">
-                                    <% if (sp.getDescription() != null && !sp.getDescription().isEmpty()) { %>
-                                        <div class="supplier-name"><%= sp.getDescription() %></div>
-                                    <% } %>
-                                    <div class="supplier-details">
-                                        <span class="supplier-price">
-                                            <%= String.format("%,.0f", sp.getUnitPrice()) %>đ
-                                        </span>
-                                        <span class="supplier-stock <%= sp.getStockQty() != null && sp.getStockQty() < 5 ? "stock-low" : "" %>">
-                                            <%= sp.getStockQty() != null && sp.getStockQty() > 0 ? "✓ Còn hàng: " + sp.getStockQty() : "⚠️ Hết hàng" %>
-                                        </span>
-                                    </div>
-                                </div>
-                            <%
-                                    }
-                                } else {
-                            %>
-                                <p style="color: #999; font-size: 14px;">Chưa có thông tin nhà cung cấp</p>
-                            <%
-                                }
-                            %>
-                        </div>
-                    <%
-                            }
-                        } else {
-                    %>
-                        <div class="no-results">
-                            <div class="no-results-icon">⚙️</div>
-                            <p>Không tìm thấy phụ tùng nào</p>
                         </div>
                     <%
                         }
