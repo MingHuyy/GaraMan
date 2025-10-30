@@ -27,8 +27,12 @@
             color: #1e40af;
             padding: 0;
             box-shadow: 0 2px 10px rgba(59, 130, 246, 0.15);
-            margin-bottom: 40px;
+            border-bottom: 3px solid #3b82f6;
+            margin-bottom: 30px;
             border-radius: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         nav {
@@ -37,7 +41,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 0.8rem 2rem;
         }
 
         .logo {
@@ -48,6 +52,12 @@
             font-weight: 700;
             text-decoration: none;
             color: #1e40af;
+        }
+
+        .page-title {
+            font-size: 20px;
+            color: #1e40af;
+            font-weight: 600;
         }
 
         .nav-links {
@@ -73,6 +83,31 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
+        }
+
+        /* Back Button */
+        .back-button {
+            margin-bottom: 20px;
+        }
+
+        .back-button a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: white;
+            border: 2px solid #bfdbfe;
+        }
+
+        .back-button a:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+            transform: translateX(-5px);
         }
 
         /* Detail Card */
@@ -232,38 +267,20 @@
             color: #64748b;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .detail-card {
-                padding: 30px 20px;
-            }
-
-            .detail-header h1 {
-                font-size: 24px;
-            }
-
-            .detail-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .detail-label {
-                flex: none;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
     </style>
 </head>
 <body>
+    <%
+        SupplierPart supplierPart = (SupplierPart) request.getAttribute("supplierPart");
+        Service service = (Service) request.getAttribute("service");
+        String pageTitle = "";
+        if (supplierPart != null) {
+            pageTitle = "Chi tiết Phụ tùng";
+        } else if (service != null) {
+            pageTitle = "Chi tiết Dịch vụ";
+        }
+    %>
+    
     <!-- Header -->
     <header>
         <nav>
@@ -271,8 +288,10 @@
                 <span>🚗</span>
                 <span>GaraMan</span>
             </a>
+            <% if (!pageTitle.isEmpty()) { %>
+            <div class="page-title"><%= pageTitle %></div>
+            <% } %>
             <div class="nav-links">
-                <a href="HomePage.jsp">Trang chủ</a>
                 <a href="SearchPage.jsp">Tìm kiếm</a>
             </div>
         </nav>
@@ -281,12 +300,16 @@
     <!-- Main Content -->
     <div class="container">
         <%
-            SupplierPart supplierPart = (SupplierPart) request.getAttribute("supplierPart");
-            Service service = (Service) request.getAttribute("service");
-            
             if (supplierPart != null) {
                 // Hiển thị chi tiết Phụ Tùng
         %>
+            <!-- Back Button -->
+            <div class="back-button">
+                <a href="javascript:history.back()">
+                    ← Quay lại
+                </a>
+            </div>
+            
             <div class="detail-card">
                 <div class="detail-header">
                     <h1><%= supplierPart.getPartName() %></h1>
@@ -331,11 +354,11 @@
                 </div>
 
                 <div class="action-buttons">
-                    <a href="javascript:history.back()" class="btn btn-secondary">
-                        ← Quay lại
+                    <a href="#" class="btn btn-secondary">
+                        🛒 Thêm vào giỏ hàng
                     </a>
-                    <a href="SearchPage.jsp" class="btn btn-primary">
-                        🔍 Tìm kiếm khác
+                    <a href="#" class="btn btn-primary">
+                        💳 Mua ngay
                     </a>
                 </div>
             </div>
@@ -344,6 +367,13 @@
             } else if (service != null) {
                 // Hiển thị chi tiết Dịch Vụ
         %>
+            <!-- Back Button -->
+            <div class="back-button">
+                <a href="javascript:history.back()">
+                    ← Quay lại
+                </a>
+            </div>
+            
             <div class="detail-card">
                 <div class="detail-header">
                     <h1><%= service.getName() %></h1>
@@ -377,11 +407,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <a href="javascript:history.back()" class="btn btn-secondary">
-                        ← Quay lại
-                    </a>
-                    <a href="SearchPage.jsp" class="btn btn-primary">
-                        🔍 Tìm kiếm khác
+                    <a href="#" class="btn btn-primary" style="flex: none; width: 100%;">
+                        📅 Đặt ngay
                     </a>
                 </div>
             </div>

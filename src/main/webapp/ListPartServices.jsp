@@ -28,6 +28,11 @@
             color: #1e40af;
             padding: 0;
             box-shadow: 0 2px 10px rgba(59, 130, 246, 0.15);
+            border-bottom: 3px solid #3b82f6;
+            border-radius: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         nav {
@@ -36,7 +41,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 0.8rem 2rem;
         }
 
         .logo {
@@ -47,6 +52,12 @@
             font-weight: 700;
             text-decoration: none;
             color: #1e40af;
+        }
+
+        .page-title {
+            font-size: 20px;
+            color: #1e40af;
+            font-weight: 600;
         }
 
         .nav-links a {
@@ -64,24 +75,15 @@
         /* Container */
         .container {
             max-width: 1400px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 0 20px;
-        }
-
-        /* Search Box */
-        .search-box {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
         }
         
         .search-keyword {
             text-align: center;
             color: #64748b;
             font-size: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .search-keyword strong {
@@ -89,56 +91,17 @@
             font-weight: 600;
         }
 
-        .search-form {
-            display: flex;
-            gap: 15px;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 15px 20px;
-            border: 2px solid #bfdbfe;
-            border-radius: 10px;
-            font-size: 16px;
-            background: #eff6ff;
-            color: #1e40af;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #60a5fa;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
-        }
-
-        .btn-search {
-            background: #3b82f6;
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-search:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-        }
-
         /* Results Grid */
         .results-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 20px;
         }
 
         .results-section {
             background: white;
             border-radius: 15px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         }
 
@@ -146,14 +109,14 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
             border-bottom: 2px solid #3b82f6;
         }
 
         .section-header h2 {
             color: #1e40af;
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
         }
 
@@ -170,8 +133,8 @@
         .service-item {
             background: #eff6ff;
             border-left: 4px solid #3b82f6;
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
             border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -217,8 +180,8 @@
         /* Part Card */
         .part-item {
             background: #eff6ff;
-            padding: 20px;
-            margin-bottom: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
             border-radius: 8px;
             border: 2px solid #bfdbfe;
             transition: all 0.3s ease;
@@ -305,15 +268,6 @@
             margin-bottom: 15px;
         }
 
-        @media (max-width: 968px) {
-            .results-container {
-                grid-template-columns: 1fr;
-            }
-
-            .search-form {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
@@ -324,28 +278,15 @@
                 <span>🚗</span>
                 <span>GaraMan</span>
             </a>
+            <div class="page-title">Danh sách Dịch vụ & Phụ tùng</div>
             <div class="nav-links">
-                <a href="HomePage.jsp">Trang chủ</a>
-                <a href="SearchPage.jsp">← Quay lại tìm kiếm</a>
+                <a href="SearchPage.jsp">Quay lại tìm kiếm</a>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Search Box -->
-        <div class="search-box">
-            <form class="search-form" action="search" method="get">
-                <input 
-                    type="text" 
-                    name="keyword" 
-                    class="search-input" 
-                    placeholder="Nhập tên dịch vụ hoặc phụ tùng cần tìm..."
-                    value="<%= request.getParameter("keyword") != null ? request.getParameter("keyword") : "" %>"
-                />
-                <button type="submit" class="btn-search">🔍 Tìm kiếm</button>
-            </form>
-        </div>
 
         <%
             String keyword = (String) request.getAttribute("keyword");
@@ -355,15 +296,7 @@
             List<SupplierPart> supplierParts = (List<SupplierPart>) request.getAttribute("supplierParts");
             List<Service> services = (List<Service>) request.getAttribute("services");
             
-            if (keyword == null || keyword.trim().isEmpty()) {
-        %>
-            <div class="no-results">
-                <div class="no-results-icon">🔍</div>
-                <h3>Nhập từ khóa để tìm kiếm</h3>
-                <p>Vui lòng nhập tên dịch vụ hoặc phụ tùng bạn cần tìm</p>
-            </div>
-        <%
-            } else {
+            if (keyword != null && !keyword.trim().isEmpty()) {
         %>
             <!-- Từ khóa tìm kiếm -->
             <div class="search-keyword">
@@ -454,6 +387,14 @@
                         }
                     %>
                 </div>
+            </div>
+        <%
+            } else {
+        %>
+            <div class="no-results">
+                <div class="no-results-icon">🔍</div>
+                <h3>Không có từ khóa tìm kiếm</h3>
+                <p>Vui lòng quay lại trang tìm kiếm để nhập từ khóa</p>
             </div>
         <%
             }

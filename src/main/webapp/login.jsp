@@ -14,28 +14,61 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .login-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            display: flex;
+            height: 100vh;
             width: 100%;
-            max-width: 400px;
-            animation: slideIn 0.5s ease-out;
         }
 
-        @keyframes slideIn {
+        /* Phần bên trái - Logo và branding (60%) */
+        .login-left {
+            flex: 0 0 60%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .logo-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -43,38 +76,73 @@
             }
         }
 
-        .login-header {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            padding: 40px 30px;
-            text-align: center;
-            color: white;
-        }
-
-        .login-header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .login-header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
         .login-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: rgba(255, 255, 255, 0.2);
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 90px;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-content h1 {
+            font-size: 56px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-content p {
+            font-size: 20px;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Phần bên phải - Form đăng nhập (40%) */
+        .login-right {
+            flex: 0 0 40%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            overflow-y: auto;
         }
 
         .login-body {
-            padding: 40px 30px;
+            width: 100%;
+            max-width: 450px;
+            animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .login-body h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .login-body .subtitle {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 35px;
         }
 
         .form-group {
@@ -111,18 +179,12 @@
             color: #aaa;
         }
 
-        .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
         .remember-me {
             display: flex;
             align-items: center;
             font-size: 14px;
             color: #666;
+            margin-bottom: 20px;
         }
 
         .remember-me input[type="checkbox"] {
@@ -130,17 +192,6 @@
             width: 18px;
             height: 18px;
             cursor: pointer;
-        }
-
-        .forgot-password {
-            font-size: 14px;
-            color: #3b82f6;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
         }
 
         .btn-login {
@@ -227,68 +278,58 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        @media (max-width: 480px) {
-            .login-container {
-                border-radius: 15px;
-            }
-
-            .login-header {
-                padding: 30px 20px;
-            }
-
-            .login-header h1 {
-                font-size: 26px;
-            }
-
-            .login-body {
-                padding: 30px 20px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="login-header">
-            <div class="login-icon">🚗</div>
-            <h1>GaraMan</h1>
-            <p>Hệ thống quản lý gara ô tô</p>
+        <!-- Phần bên trái - Logo và branding -->
+        <div class="login-left">
+            <div class="logo-content">
+                <div class="login-icon">🚗</div>
+                <h1>GaraMan</h1>
+                <p>Hệ thống quản lý gara ô tô chuyên nghiệp</p>
+            </div>
         </div>
         
-        <div class="login-body">
-            <% 
-                String error = request.getParameter("error");
-                String success = request.getParameter("success");
-                String message = (String) request.getAttribute("message");
-            %>
-            
-            <% if (error != null) { %>
-                <div class="alert alert-error">
-                    <% if ("invalid".equals(error)) { %>
-                        ❌ Tên đăng nhập hoặc mật khẩu không đúng!
-                    <% } else if ("empty".equals(error)) { %>
-                        ⚠️ Vui lòng nhập đầy đủ thông tin!
-                    <% } else if ("session".equals(error)) { %>
-                        ℹ️ Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!
-                    <% } else { %>
-                        <%= message != null ? message : "Có lỗi xảy ra!" %>
-                    <% } %>
-                </div>
-            <% } %>
-            
-            
-            <form action="login" method="post">
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        placeholder="Nhập tên đăng nhập"
-                        required
-                        autofocus
-                    />
-                </div>
+        <!-- Phần bên phải - Form đăng nhập -->
+        <div class="login-right">
+            <div class="login-body">
+                <h2>Đăng Nhập</h2>
+                <p class="subtitle">Chào mừng bạn trở lại! Vui lòng đăng nhập để tiếp tục.</p>
                 
+                <% 
+                    String error = request.getParameter("error");
+                    String success = request.getParameter("success");
+                    String message = (String) request.getAttribute("message");
+                %>
+                
+                <% if (error != null) { %>
+                    <div class="alert alert-error">
+                        <% if ("invalid".equals(error)) { %>
+                            ❌ Tên đăng nhập hoặc mật khẩu không đúng!
+                        <% } else if ("empty".equals(error)) { %>
+                            ⚠️ Vui lòng nhập đầy đủ thông tin!
+                        <% } else if ("session".equals(error)) { %>
+                            ℹ️ Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!
+                        <% } else { %>
+                            <%= message != null ? message : "Có lỗi xảy ra!" %>
+                        <% } %>
+                    </div>
+                <% } %>
+                
+                <form action="login" method="post">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            placeholder="Nhập tên đăng nhập"
+                            required
+                            autofocus
+                        />
+                    </div>
+                    
                 <div class="form-group">
                     <label for="password">Mật khẩu</label>
                     <input 
@@ -300,25 +341,23 @@
                     />
                 </div>
                 
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember" />
-                        Ghi nhớ đăng nhập
-                    </label>
-                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
-                </div>
+                <label class="remember-me">
+                    <input type="checkbox" name="remember" />
+                    Ghi nhớ đăng nhập
+                </label>
                 
                 <button type="submit" class="btn-login">Đăng Nhập</button>
-            </form>
-            
-            <div class="register-link">
-                Chưa có tài khoản? <a href="#">Đăng ký ngay</a>
-            </div>
-            
-            <div class="back-to-home">
-                <a href="HomePage.jsp" class="btn-home">
-                    🏠 Về trang chủ
-                </a>
+                </form>
+                
+                <div class="register-link">
+                    Chưa có tài khoản? <a href="#">Đăng ký ngay</a>
+                </div>
+                
+                <div class="back-to-home">
+                    <a href="HomePage.jsp" class="btn-home">
+                        🏠 Về trang chủ
+                    </a>
+                </div>
             </div>
         </div>
     </div>

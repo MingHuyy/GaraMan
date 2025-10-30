@@ -15,42 +15,43 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             width: 100%;
         }
 
         /* Header Logo */
         .header-logo {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
             animation: fadeInDown 0.8s ease;
         }
 
         .logo-icon {
-            font-size: 80px;
-            margin-bottom: 15px;
+            font-size: 50px;
+            margin-bottom: 8px;
             display: inline-block;
             animation: bounce 2s infinite;
         }
 
         .logo-text {
-            font-size: 48px;
+            font-size: 32px;
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .logo-subtitle {
-            font-size: 18px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.95);
             font-weight: 300;
         }
@@ -58,45 +59,45 @@
         /* Main Card */
         .main-card {
             background: white;
-            border-radius: 30px;
-            padding: 60px 50px;
+            border-radius: 20px;
+            padding: 30px 35px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 0.8s ease;
         }
 
         .welcome-text {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 25px;
         }
 
         .welcome-text h1 {
-            font-size: 36px;
+            font-size: 26px;
             color: #1e40af;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             font-weight: 700;
         }
 
         .welcome-text p {
-            font-size: 18px;
+            font-size: 14px;
             color: #64748b;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
         /* Action Buttons Grid */
         .actions-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
         }
 
         .action-btn {
             background: #bfdbfe;
             color: #1e3a8a;
-            padding: 35px 30px;
+            padding: 20px 20px;
             border: 2px solid #93c5fd;
-            border-radius: 20px;
-            font-size: 18px;
+            border-radius: 15px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -105,7 +106,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .action-btn:hover {
@@ -116,16 +117,16 @@
         }
 
         .btn-icon {
-            font-size: 48px;
+            font-size: 36px;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         .btn-text {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .btn-description {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 400;
             opacity: 0.9;
             text-align: center;
@@ -134,11 +135,15 @@
         /* Footer */
         .footer-info {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
+            margin-top: 25px;
+            padding-top: 20px;
             border-top: 1px solid #eee;
             color: #999;
-            font-size: 14px;
+            font-size: 12px;
+        }
+        
+        .footer-info p {
+            margin: 5px 0;
         }
 
         /* Animations */
@@ -173,28 +178,6 @@
             }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-card {
-                padding: 40px 30px;
-            }
-
-            .logo-text {
-                font-size: 36px;
-            }
-
-            .welcome-text h1 {
-                font-size: 28px;
-            }
-
-            .actions-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-btn {
-                padding: 30px 25px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -239,9 +222,8 @@
 
             <!-- Footer Info -->
             <div class="footer-info">
-                <p>🕒 <strong>Giờ làm việc:</strong> Thứ 2 - Chủ nhật | 8:00 - 18:00</p>
-                <p>📞 <strong>Hotline:</strong> 0123 456 789 | 📧 <strong>Email:</strong> contact@garaman.vn</p>
-                <p style="margin-top: 15px; opacity: 0.7;">&copy; 2024 GaraMan. All rights reserved.</p>
+                <p>🕒 Thứ 2 - Chủ nhật | 8:00 - 18:00 | 📞 0123 456 789 | 📧 contact@garaman.vn</p>
+                <p style="margin-top: 8px; opacity: 0.7;">&copy; 2024 GaraMan. All rights reserved.</p>
             </div>
         </div>
     </div>

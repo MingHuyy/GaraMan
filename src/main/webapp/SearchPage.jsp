@@ -16,7 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #93c5fd 0%, #60a5fa 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         /* Header */
@@ -26,7 +26,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
@@ -75,7 +75,7 @@
         .search-card {
             background: white;
             border-radius: 25px;
-            padding: 60px 50px;
+            padding: 35px 30px;
             box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
             text-align: center;
         }
@@ -216,7 +216,6 @@
             <span>GaraMan</span>
         </a>
         <div class="nav-links">
-            <a href="HomePage.jsp">← Trang chủ</a>
             <a href="login.jsp">Đăng nhập</a>
         </div>
     </div>

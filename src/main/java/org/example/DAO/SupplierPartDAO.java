@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO để thao tác với bảng SupplierPart
- */
 public class SupplierPartDAO extends DAO {
     
     public SupplierPartDAO() {
@@ -42,8 +39,7 @@ public class SupplierPartDAO extends DAO {
                     sp.setQuantity(rs.getInt("quantity"));
                     sp.setSupplierId(rs.getInt("supplier_id"));
                     sp.setPartId(rs.getInt("part_id"));
-                    
-                    // Set tên Part và Supplier để hiển thị
+
                     sp.setPartName(rs.getString("part_name"));
                     sp.setSupplierName(rs.getString("supplier_name"));
                     
@@ -57,9 +53,6 @@ public class SupplierPartDAO extends DAO {
         return supplierParts;
     }
 
-    /**
-     * Lấy thông tin SupplierPart theo ID
-     */
     public SupplierPart getSupplierPartById(Integer supplierPartId) {
         String sql = "SELECT sp.*, p.name as part_name, s.name as supplier_name " +
                      "FROM SupplierPart sp " +

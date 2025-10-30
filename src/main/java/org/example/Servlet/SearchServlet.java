@@ -33,26 +33,16 @@ public class SearchServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Nhận keyword từ JSP
         String keyword = request.getParameter("keyword");
 
-        System.out.println("=================================");
-        System.out.println("SearchServlet - Keyword: " + keyword);
 
-        // Tìm kiếm Part và Service
         List<SupplierPart> supplierParts = supplierPartDAO.searchByPartKeyword(keyword);
         List<Service> services = serviceDAO.searchByName(keyword);
 
-        System.out.println("Số lượng Part: " + supplierParts.size());
-        System.out.println("Số lượng Service: " + services.size());
-        System.out.println("=================================");
-
-        // Gửi dữ liệu lên JSP
         request.setAttribute("supplierParts", supplierParts);
         request.setAttribute("services", services);
         request.setAttribute("keyword", keyword);
 
-        // Forward về JSP
         request.getRequestDispatcher("ListPartServices.jsp").forward(request, response);
     }
 
