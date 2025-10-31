@@ -12,6 +12,7 @@ public class ImportInvoice implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private Integer importId;
+    private String invoiceCode;    // Mã hóa đơn
     private Date date;             // Ngày nhập
     private Float totalAmount;     // Tổng tiền
     private String status;         // PENDING, COMPLETED, CANCELLED
@@ -42,6 +43,14 @@ public class ImportInvoice implements Serializable {
     
     public void setImportId(Integer importId) {
         this.importId = importId;
+    }
+    
+    public String getInvoiceCode() {
+        return invoiceCode;
+    }
+    
+    public void setInvoiceCode(String invoiceCode) {
+        this.invoiceCode = invoiceCode;
     }
     
     public Date getDate() {
@@ -96,6 +105,7 @@ public class ImportInvoice implements Serializable {
     public String toString() {
         return "ImportInvoice{" +
                 "importId=" + importId +
+                ", invoiceCode='" + invoiceCode + '\'' +
                 ", date=" + date +
                 ", totalAmount=" + totalAmount +
                 ", status='" + status + '\'' +

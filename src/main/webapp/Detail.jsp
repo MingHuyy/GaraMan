@@ -18,7 +18,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
 
         /* Header */
@@ -28,7 +28,7 @@
             padding: 0;
             box-shadow: 0 2px 10px rgba(59, 130, 246, 0.15);
             border-bottom: 3px solid #3b82f6;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-radius: 15px;
             position: sticky;
             top: 0;
@@ -48,10 +48,14 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
             text-decoration: none;
             color: #1e40af;
+        }
+
+        .logo-icon {
+            font-size: 36px;
         }
 
         .page-title {
@@ -87,21 +91,22 @@
 
         /* Back Button */
         .back-button {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .back-button a {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: #3b82f6;
             text-decoration: none;
             font-weight: 500;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 10px;
             transition: all 0.3s ease;
             background: white;
             border: 2px solid #bfdbfe;
+            font-size: 14px;
         }
 
         .back-button a:hover {
@@ -114,39 +119,39 @@
         .detail-card {
             background: white;
             border-radius: 20px;
-            padding: 50px 40px;
+            padding: 30px;
             box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
         }
 
         .detail-header {
             border-bottom: 3px solid #3b82f6;
-            padding-bottom: 25px;
-            margin-bottom: 30px;
+            padding-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .detail-header h1 {
-            font-size: 32px;
+            font-size: 26px;
             color: #1e40af;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .detail-badge {
             display: inline-block;
             background: #bfdbfe;
             color: #1e3a8a;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
 
         .detail-body {
-            padding: 20px 0;
+            padding: 15px 0;
         }
 
         .detail-row {
             display: flex;
-            padding: 20px 0;
+            padding: 14px 0;
             border-bottom: 1px solid #e5e7eb;
             align-items: center;
         }
@@ -156,35 +161,35 @@
         }
 
         .detail-label {
-            flex: 0 0 200px;
+            flex: 0 0 180px;
             font-weight: 600;
             color: #64748b;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .detail-value {
             flex: 1;
-            font-size: 18px;
+            font-size: 16px;
             color: #1e40af;
             font-weight: 500;
         }
 
         .detail-value.price {
-            font-size: 28px;
+            font-size: 24px;
             color: #3b82f6;
             font-weight: 700;
         }
 
         .detail-value.description {
             color: #64748b;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
         .detail-value .stock-badge {
             display: inline-block;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
 
@@ -205,17 +210,17 @@
 
         /* Action Buttons */
         .action-buttons {
-            margin-top: 40px;
+            margin-top: 25px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
 
         .btn {
             flex: 1;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -285,7 +290,7 @@
     <header>
         <nav>
             <a href="HomePage.jsp" class="logo">
-                <span>🚗</span>
+                <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
             <% if (!pageTitle.isEmpty()) { %>

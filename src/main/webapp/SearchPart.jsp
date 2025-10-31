@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.Model.Supplier" %>
+<%@ page import="org.example.Model.SupplierPart" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chọn Nhà Cung Cấp - GaraMan</title>
+    <title>Chọn Phụ Tùng - GaraMan</title>
     <style>
         * {
             margin: 0;
@@ -81,6 +81,28 @@
             padding: 0 30px;
         }
 
+        /* Supplier Info Section */
+        .supplier-info {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .supplier-info-label {
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .supplier-info-value {
+            font-size: 18px;
+            color: #1e40af;
+            font-weight: 600;
+        }
+
         /* Search Section */
         .search-section {
             background: white;
@@ -149,17 +171,17 @@
             font-weight: 700;
         }
 
-        /* Supplier Table */
-        .supplier-table {
+        /* Part Table */
+        .part-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .supplier-table thead {
+        .part-table thead {
             background: #eff6ff;
         }
 
-        .supplier-table th {
+        .part-table th {
             padding: 12px;
             text-align: left;
             font-size: 14px;
@@ -168,14 +190,14 @@
             border-bottom: 2px solid #bfdbfe;
         }
 
-        .supplier-table td {
+        .part-table td {
             padding: 12px;
             font-size: 14px;
             color: #333;
             border-bottom: 1px solid #e5e7eb;
         }
 
-        .supplier-table tbody tr:hover {
+        .part-table tbody tr:hover {
             background: #f8fafc;
         }
 
@@ -226,8 +248,10 @@
             return;
         }
         
+        String supplierId = request.getParameter("supplierId");
+        String supplierName = request.getParameter("supplierName");
         String keyword = (String) request.getAttribute("keyword");
-        List<Supplier> suppliers = (List<Supplier>) request.getAttribute("suppliers");
+        List<SupplierPart> supplierParts = (List<SupplierPart>) request.getAttribute("supplierParts");
     %>
 
     <!-- Header -->
@@ -237,23 +261,31 @@
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
-            <div class="page-title">Chọn Nhà Cung Cấp</div>
+            <div class="page-title">Chọn Phụ Tùng</div>
             <div class="nav-links">
-                <a href="PartReceiving.jsp">← Quay lại</a>
+                <a href="PartReceiving.jsp?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>">← Quay lại</a>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
     <div class="container">
+        <!-- Supplier Info Section -->
+        <div class="supplier-info">
+            <div class="supplier-info-label">🏢 Nhà cung cấp đã chọn</div>
+            <div class="supplier-info-value"><%= supplierName != null ? supplierName : "" %></div>
+        </div>
+
         <!-- Search Section -->
         <div class="search-section">
-            <form action="searchSupplier" method="get" class="search-form">
+            <form action="searchPart" method="get" class="search-form">
+                <input type="hidden" name="supplierId" value="<%= supplierId %>" />
+                <input type="hidden" name="supplierName" value="<%= supplierName != null ? supplierName : "" %>" />
                 <input 
                     type="text" 
                     name="keyword" 
                     class="search-input" 
-                    placeholder="Nhập tên nhà cung cấp..."
+                    placeholder="Nhập tên phụ tùng..."
                     value="<%= keyword != null ? keyword : "" %>"
                     required
                     autofocus
@@ -266,31 +298,33 @@
         <% if (keyword != null) { %>
         <div class="results-section">
             <div class="section-header">
-                <h2>🏢 Kết quả tìm kiếm: "<%= keyword %>"</h2>
+                <h2>🔧 Kết quả tìm kiếm: "<%= keyword %>"</h2>
             </div>
 
-            <% if (suppliers != null && !suppliers.isEmpty()) { %>
-                <table class="supplier-table">
+            <% if (supplierParts != null && !supplierParts.isEmpty()) { %>
+                <table class="part-table">
                     <thead>
                         <tr>
                             <th style="width: 8%">STT</th>
-                            <th style="width: 35%">Tên nhà cung cấp</th>
-                            <th style="width: 20%">Số điện thoại</th>
-                            <th style="width: 25%">Địa chỉ</th>
-                            <th style="width: 12%">Hành động</th>
+                            <th style="width: 10%">Mã PT</th>
+                            <th style="width: 35%">Tên phụ tùng</th>
+                            <th style="width: 15%">Đơn giá</th>
+                            <th style="width: 12%">Tồn kho</th>
+                            <th style="width: 20%">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (int i = 0; i < suppliers.size(); i++) { 
-                            Supplier s = suppliers.get(i);
+                        <% for (int i = 0; i < supplierParts.size(); i++) { 
+                            SupplierPart sp = supplierParts.get(i);
                         %>
                         <tr>
                             <td><%= i + 1 %></td>
-                            <td><%= s.getName() %></td>
-                            <td><%= s.getPhone() != null ? s.getPhone() : "" %></td>
-                            <td><%= s.getAddress() != null ? s.getAddress() : "" %></td>
+                            <td><%= sp.getPartId() %></td>
+                            <td><%= sp.getPartName() %></td>
+                            <td><%= String.format("%,.0f", sp.getPrice()) %> đ</td>
+                            <td><%= sp.getQuantity() %></td>
                             <td>
-                                <a href="PartReceiving.jsp?supplierId=<%= s.getSupplierId() %>&supplierName=<%= java.net.URLEncoder.encode(s.getName(), "UTF-8") %>" 
+                                <a href="PartReceiving.jsp?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>&supplierPartId=<%= sp.getSupplierPartId() %>&partName=<%= java.net.URLEncoder.encode(sp.getPartName(), "UTF-8") %>&price=<%= sp.getPrice() %>&currentQuantity=<%= sp.getQuantity() %>" 
                                    class="btn-choose">
                                     Chọn
                                 </a>
@@ -302,7 +336,7 @@
             <% } else { %>
                 <div class="no-results">
                     <div class="no-results-icon">🔍</div>
-                    <h3>Không tìm thấy nhà cung cấp nào</h3>
+                    <h3>Không tìm thấy phụ tùng nào</h3>
                     <p>Vui lòng thử lại với từ khóa khác</p>
                 </div>
             <% } %>

@@ -9,8 +9,9 @@ import org.example.DAO.SupplierPartDAO;
 import org.example.Model.SupplierPart;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/part")
+@WebServlet(urlPatterns = {"/part", "/searchPart"})
 public class PartServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +29,27 @@ public class PartServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        // Nhận ID để xem chi tiết
+        String servletPath = request.getServletPath();
+
+        if ("/searchPart".equals(servletPath)) {
+            String keyword = request.getParameter("keyword");
+            String supplierIdParam = request.getParameter("supplierId");
+
+            if (keyword != null && !keyword.trim().isEmpty() && supplierIdParam != null) {
+                try {
+                    int supplierId = Integer.parseInt(supplierIdParam);
+                    List<SupplierPart> supplierParts = supplierPartDAO.searchByPartKeywordAndSupplier(keyword.trim(), supplierId);
+                    request.setAttribute("supplierParts", supplierParts);
+                    request.setAttribute("keyword", keyword);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            request.getRequestDispatcher("SearchPart.jsp").forward(request, response);
+            return;
+        }
+
         String idParam = request.getParameter("id");
 
         if (idParam != null && !idParam.isEmpty()) {
@@ -49,11 +70,9 @@ public class PartServlet extends HttpServlet {
                     System.out.println("Không tìm thấy!");
                 }
                 System.out.println("=================================");
-
-                // Gửi dữ liệu lên JSP
-                request.setAttribute("supplierPart", supplierPart);
                 
-                // Forward về trang chi tiết
+                request.setAttribute("supplierPart", supplierPart);
+
                 request.getRequestDispatcher("Detail.jsp").forward(request, response);
                 
             } catch (NumberFormatException e) {
