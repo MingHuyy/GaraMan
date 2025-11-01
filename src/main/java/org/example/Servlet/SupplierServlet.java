@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/searchSupplier")
-public class SearchSupplierServlet extends HttpServlet {
+public class SupplierServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private SupplierDAO supplierDAO;

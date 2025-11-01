@@ -123,12 +123,6 @@ public class SupplierPartDAO extends DAO {
         return null;
     }
 
-    /**
-     * Cập nhật số lượng tồn kho của phụ tùng (cộng thêm khi nhập hàng)
-     * @param supplierPartId ID của SupplierPart
-     * @param quantityToAdd Số lượng cần cộng thêm
-     * @return true nếu thành công, false nếu thất bại
-     */
     public boolean updateQuantity(Integer supplierPartId, Integer quantityToAdd) {
         String sql = "UPDATE SupplierPart SET quantity = quantity + ? WHERE supplier_part_id = ?";
 

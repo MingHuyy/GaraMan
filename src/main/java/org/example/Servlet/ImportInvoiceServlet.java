@@ -26,12 +26,10 @@ public class ImportInvoiceServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
-        
-        // Lấy thông tin từ request
+
         String supplierId = request.getParameter("supplierId");
         String supplierName = request.getParameter("supplierName");
-        
-        // Lấy danh sách phụ tùng từ session
+
         List<Map<String, String>> selectedParts = 
             (List<Map<String, String>>) session.getAttribute("selectedParts");
         
@@ -39,8 +37,7 @@ public class ImportInvoiceServlet extends HttpServlet {
             response.sendRedirect("PartReceiving.jsp?error=noparts");
             return;
         }
-        
-        // Cập nhật số lượng và giá từ form
+
         List<Map<String, String>> invoiceItems = new ArrayList<>();
         double totalAmount = 0;
         

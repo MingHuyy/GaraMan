@@ -3,9 +3,6 @@ package org.example.DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-/**
- * Lớp DAO cơ sở - quản lý kết nối database dùng chung
- */
 public class DAO {
     
     protected static Connection con;

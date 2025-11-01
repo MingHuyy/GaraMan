@@ -41,7 +41,6 @@ public class ConfirmImportServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            // Lấy thông tin từ session
             List<Map<String, String>> invoiceItems =
                     (List<Map<String, String>>) session.getAttribute("invoiceItems");
             String supplierIdStr = (String) session.getAttribute("invoiceSupplierId");
@@ -52,13 +51,11 @@ public class ConfirmImportServlet extends HttpServlet {
                 response.sendRedirect("PartReceiving.jsp?error=nodata");
                 return;
             }
-
-            // Tạo mã hóa đơn
+            
             LocalDate today = LocalDate.now();
             String invoiceCode = "PN" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
                     + "-" + System.currentTimeMillis() % 10000;
 
-            // Tạo ImportInvoice
             ImportInvoice invoice = new ImportInvoice();
             invoice.setInvoiceCode(invoiceCode);
             invoice.setDate(new Date());
@@ -67,7 +64,7 @@ public class ConfirmImportServlet extends HttpServlet {
             invoice.setSupplierId(Integer.parseInt(supplierIdStr));
             invoice.setEmployeeId(employeeId);
 
-            // Lưu hóa đơn vào DB
+            // Lưu hóa đơn
             int importId = importInvoiceDAO.createImportInvoice(invoice);
 
             if (importId > 0) {
@@ -75,7 +72,7 @@ public class ConfirmImportServlet extends HttpServlet {
                 boolean success = true;
 
                 for (Map<String, String> item : invoiceItems) {
-                    // Tạo ImportInvoiceItem
+
                     ImportInvoiceItem invoiceItem = new ImportInvoiceItem();
                     invoiceItem.setImportId(importId);
                     invoiceItem.setSupplierPartId(Integer.parseInt(item.get("supplierPartId")));
@@ -83,7 +80,6 @@ public class ConfirmImportServlet extends HttpServlet {
                     invoiceItem.setUnitPrice(Float.parseFloat(item.get("price")));
                     invoiceItem.setLineAmount(Float.parseFloat(item.get("subtotal")));
 
-                    // Lưu chi tiết
                     if (!importInvoiceDAO.createImportInvoiceItem(invoiceItem)) {
                         success = false;
                         break;

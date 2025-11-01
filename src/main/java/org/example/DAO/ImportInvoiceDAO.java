@@ -74,32 +74,5 @@ public class ImportInvoiceDAO extends DAO {
             return false;
         }
     }
-
-    public ImportInvoice getImportInvoiceById(Integer importId) {
-        String sql = "SELECT * FROM ImportInvoice WHERE import_id = ?";
-        
-        try (PreparedStatement stmt = con.prepareStatement(sql)) {
-            
-            stmt.setInt(1, importId);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    ImportInvoice invoice = new ImportInvoice();
-                    invoice.setImportId(rs.getInt("import_id"));
-                    invoice.setInvoiceCode(rs.getString("invoice_code"));
-                    invoice.setDate(rs.getDate("date"));
-                    invoice.setTotalAmount(rs.getFloat("total_amount"));
-                    invoice.setStatus(rs.getString("status"));
-                    invoice.setSupplierId(rs.getInt("supplier_id"));
-                    invoice.setEmployeeId(rs.getInt("employee_id"));
-                    return invoice;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
-    }
 }
 
