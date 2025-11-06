@@ -4,27 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Model ImportInvoice - Hóa đơn nhập phụ tùng
- */
 public class ImportInvoice implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
     private Integer importId;
-    private String invoiceCode;    // Mã hóa đơn
-    private Date date;             // Ngày nhập
-    private Float totalAmount;     // Tổng tiền
-    private String status;         // PENDING, COMPLETED, CANCELLED
-    
-    // Foreign keys
-    private Integer supplierId;    // FK to Supplier
-    private Integer employeeId;    // FK to Employee
-    
-    // List chi tiết
+    private String invoiceCode;
+    private Date date;
+    private Float totalAmount;
+    private String status;
+    private Integer supplierId;
+    private Integer employeeId;
+
     private List<ImportInvoiceItem> listImportInvoiceItem;
-    
-    // Constructors
     
     public ImportInvoice() {
     }
@@ -34,9 +26,7 @@ public class ImportInvoice implements Serializable {
         this.totalAmount = totalAmount;
         this.status = status;
     }
-    
-    // Getters and Setters
-    
+
     public Integer getImportId() {
         return importId;
     }

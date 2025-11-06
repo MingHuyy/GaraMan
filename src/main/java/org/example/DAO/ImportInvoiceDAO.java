@@ -15,11 +15,6 @@ public class ImportInvoiceDAO extends DAO {
         super();
     }
 
-    /**
-     * Tạo hóa đơn nhập mới
-     * @param invoice Thông tin hóa đơn
-     * @return import_id của hóa đơn vừa tạo, hoặc -1 nếu thất bại
-     */
     public int createImportInvoice(ImportInvoice invoice) {
         String sql = "INSERT INTO ImportInvoice (invoice_code, date, total_amount, status, supplier_id, employee_id) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
@@ -50,11 +45,6 @@ public class ImportInvoiceDAO extends DAO {
         return -1;
     }
 
-    /**
-     * Tạo chi tiết hóa đơn nhập
-     * @param item Thông tin chi tiết
-     * @return true nếu thành công, false nếu thất bại
-     */
     public boolean createImportInvoiceItem(ImportInvoiceItem item) {
         String sql = "INSERT INTO ImportInvoiceItem (qty, unit_price, line_amount, import_id, supplier_part_id) " +
                      "VALUES (?, ?, ?, ?, ?)";

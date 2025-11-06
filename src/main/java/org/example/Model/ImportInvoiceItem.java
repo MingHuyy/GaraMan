@@ -13,7 +13,7 @@ public class ImportInvoiceItem implements Serializable {
 
     private Integer importItemId;
     private Integer qty; // Số lượng nhập
-    private Float unitPrice; // Đơn giá nhập
+    private float unitPrice; // Đơn giá nhập
     private Float lineAmount; // Thành tiền (qty * unitPrice)
 
     // Foreign keys
@@ -51,7 +51,7 @@ public class ImportInvoiceItem implements Serializable {
         this.qty = qty;
     }
 
-    public Float getUnitPrice() {
+    public float getUnitPrice() {
         return unitPrice;
     }
 

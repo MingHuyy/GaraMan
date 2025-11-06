@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xem Trước Hóa Đơn Nhập - GaraMan</title>
+    <title>Chi Tiết Hóa Đơn Nhập - GaraMan</title>
     <style>
         * {
             margin: 0;
@@ -30,17 +30,66 @@
             margin: 0 auto;
         }
 
+        /* Success Alert */
+        .success-alert {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 2px solid #6ee7b7;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown 0.4s ease;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.1);
+        }
+
+        .success-icon {
+            font-size: 24px;
+            color: #10b981;
+        }
+
+        .success-content h2 {
+            color: #065f46;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .success-content p {
+            color: #059669;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .success-content strong {
+            color: #047857;
+            font-weight: 600;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Invoice Card */
         .invoice-card {
             background: white;
             border-radius: 15px;
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.15);
             overflow: hidden;
+            margin-bottom: 20px;
         }
 
         /* Header */
         .invoice-header {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -146,10 +195,12 @@
 
         /* Total Section */
         .total-section {
-            background: #eff6ff;
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
             padding: 20px 25px;
             border-radius: 12px;
             margin-bottom: 25px;
+            border: 2px solid #6ee7b7;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.08);
         }
 
         .total-row {
@@ -162,24 +213,24 @@
         .total-row:last-child {
             margin-bottom: 0;
             padding-top: 12px;
-            border-top: 2px solid #bfdbfe;
+            border-top: 2px solid #a7f3d0;
         }
 
         .total-label {
             font-size: 14px;
-            color: #64748b;
+            color: #059669;
             font-weight: 500;
         }
 
         .total-value {
             font-size: 16px;
-            color: #1e40af;
+            color: #047857;
             font-weight: 600;
         }
 
         .grand-total-label {
             font-size: 17px;
-            color: #1e40af;
+            color: #065f46;
             font-weight: 700;
         }
 
@@ -208,48 +259,50 @@
             display: inline-block;
         }
 
-        .btn-confirm {
+        .btn-print {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-home {
             background: #10b981;
             color: white;
         }
 
-        .btn-confirm:hover {
+        .btn-home:hover {
             background: #059669;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-back {
-            background: #64748b;
-            color: white;
-        }
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
 
-        .btn-back:hover {
-            background: #475569;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
-        }
+            .success-alert,
+            .action-buttons {
+                display: none !important;
+            }
 
-        /* Note Section */
-        .note-section {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 15px 18px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
+            .invoice-card {
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
 
-        .note-section h4 {
-            color: #92400e;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .note-section p {
-            color: #78350f;
-            font-size: 13px;
-            line-height: 1.6;
+            .invoice-header {
+                background: #10b981 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
     </style>
 </head>
@@ -262,15 +315,17 @@
             return;
         }
         
-        // Lấy thông tin hóa đơn từ session
-        List<Map<String, String>> invoiceItems = 
-            (List<Map<String, String>>) session.getAttribute("invoiceItems");
+        // Lấy thông tin từ session
+        String invoiceCode = (String) session.getAttribute("successInvoiceCode");
+        List<Map<String, String>> invoiceItems =
+                (List<Map<String, String>>) session.getAttribute("invoiceItems");
         String supplierName = (String) session.getAttribute("invoiceSupplierName");
         String supplierId = (String) session.getAttribute("invoiceSupplierId");
-        Double totalAmount = (Double) session.getAttribute("invoiceTotalAmount");
+        Float totalAmountObj = (Float) session.getAttribute("invoiceTotalAmount");
+        float totalAmount = (totalAmountObj != null) ? totalAmountObj : 0f;
         
-        if (invoiceItems == null || invoiceItems.isEmpty()) {
-            response.sendRedirect("PartReceiving.jsp?error=noitems");
+        if (invoiceCode == null || invoiceItems == null) {
+            response.sendRedirect("MainEmployee.jsp");
             return;
         }
         
@@ -278,17 +333,25 @@
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String todayStr = today.format(formatter);
-        
-        // Tạo mã hóa đơn tạm thời
-        String invoiceCode = "PN" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "-" + System.currentTimeMillis() % 10000;
     %>
 
     <div class="container">
-        <div class="invoice-card">
+        <!-- Success Alert -->
+        <div class="success-alert">
+            <div class="success-icon">✅</div>
+            <div class="success-content">
+                <h2>Nhập hàng thành công!</h2>
+                <p>Hóa đơn <strong><%= invoiceCode %></strong> đã được lưu vào hệ thống và số lượng tồn kho đã được cập nhật.<br>
+                   Bạn có thể in hóa đơn này để lưu trữ và thanh toán cho nhà cung cấp.</p>
+            </div>
+        </div>
+
+        <!-- Invoice Card -->
+        <div class="invoice-card" id="invoiceToPrint">
             <!-- Header -->
             <div class="invoice-header">
-                <h1>📋 XEM TRƯỚC HÓA ĐƠN NHẬP</h1>
-                <p>Vui lòng kiểm tra kỹ thông tin trước khi xác nhận</p>
+                <h1>📋 HÓA ĐƠN NHẬP HÀNG</h1>
+                <p>Mã hóa đơn: <%= invoiceCode %></p>
             </div>
 
             <!-- Body -->
@@ -309,6 +372,10 @@
                             <span class="info-label">Nhân viên:</span>
                             <span class="info-value"><%= employeeName %></span>
                         </div>
+                        <div class="info-item">
+                            <span class="info-label">Trạng thái:</span>
+                            <span class="info-value" style="color: #10b981;">✓ Hoàn thành</span>
+                        </div>
                     </div>
 
                     <div class="info-section">
@@ -326,7 +393,7 @@
 
                 <!-- Items Table -->
                 <div class="items-section">
-                    <h3>📦 Chi tiết phụ tùng nhập</h3>
+                    <h3>📦 Chi tiết phụ tùng đã nhập</h3>
                     <table class="items-table">
                         <thead>
                             <tr>
@@ -338,12 +405,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% 
+                            <%
                                 for (int i = 0; i < invoiceItems.size(); i++) {
                                     Map<String, String> item = invoiceItems.get(i);
-                                    double price = Double.parseDouble(item.get("price"));
+                                    float price = Float.parseFloat(item.get("price"));
                                     int quantity = Integer.parseInt(item.get("quantity"));
-                                    double subtotal = Double.parseDouble(item.get("subtotal"));
+                                    float subtotal = Float.parseFloat(item.get("subtotal"));
                             %>
                             <tr>
                                 <td style="text-align: center;"><%= i + 1 %></td>
@@ -368,29 +435,17 @@
                         <span class="grand-total-value"><%= String.format("%,.0f", totalAmount) %> đ</span>
                     </div>
                 </div>
-
-                <!-- Note Section -->
-                <div class="note-section">
-                    <h4>⚠️ Lưu ý quan trọng:</h4>
-                    <p>• Sau khi xác nhận, hóa đơn sẽ được lưu vào hệ thống và không thể chỉnh sửa.<br>
-                       • Số lượng tồn kho của các phụ tùng sẽ được cập nhật tự động.<br>
-                       • Vui lòng kiểm tra kỹ thông tin trước khi xác nhận.</p>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <a href="PartReceiving.jsp?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName, "UTF-8") %>" class="btn btn-back">
-                        ← Quay lại chỉnh sửa
-                    </a>
-                    <form method="post" action="confirmImport" style="display: inline;">
-                        <input type="hidden" name="supplierId" value="<%= supplierId %>" />
-                        <input type="hidden" name="supplierName" value="<%= supplierName %>" />
-                        <button type="submit" class="btn btn-confirm">
-                            ✓ Xác nhận nhập hàng
-                        </button>
-                    </form>
-                </div>
             </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button onclick="window.print()" class="btn btn-print">
+                🖨️ In hóa đơn
+            </button>
+            <a href="MainEmployee.jsp" class="btn btn-home">
+                🏠 Quay lại trang chủ
+            </a>
         </div>
     </div>
 </body>

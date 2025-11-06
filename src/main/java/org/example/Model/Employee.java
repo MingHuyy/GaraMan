@@ -2,10 +2,7 @@ package org.example.Model;
 
 import java.io.Serializable;
 
-/**
- * Model Employee - Nhân viên
- * Role: MANAGER, SALES, WAREHOUSE, TECHNICAL_STAFF
- */
+
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;

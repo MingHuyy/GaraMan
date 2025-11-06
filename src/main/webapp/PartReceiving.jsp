@@ -527,7 +527,7 @@
                 </div>
             <% } else { %>
                 <!-- Product Table -->
-                <form id="receiveForm" method="post" action="importInvoice">
+                <form id="receiveForm" method="post" action="confirmImport" onsubmit="return confirmSubmit()">
                     <input type="hidden" name="supplierId" value="<%= supplierId %>" />
                     <input type="hidden" name="supplierName" value="<%= supplierName %>" />
                     
@@ -544,21 +544,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% 
-                                double totalAmount = 0;
+                            <%
+                                float totalAmount = 0f;
+
                                 if (selectedParts != null && !selectedParts.isEmpty()) {
                                     for (int i = 0; i < selectedParts.size(); i++) {
                                         java.util.Map<String, String> part = selectedParts.get(i);
-                                        double dbPrice = Double.parseDouble(part.get("price"));
-                                        int quantity = Integer.parseInt(part.get("quantity"));
-                                        
+
+                                        // Chuyển đổi giá và số lượng (có kiểm tra null)
+                                        float dbPrice = 0f;
+                                        try {
+                                            dbPrice = Float.parseFloat(part.get("price"));
+                                        } catch (Exception e) { dbPrice = 0f; }
+
+                                        int quantity = 0;
+                                        try {
+                                            quantity = Integer.parseInt(part.get("quantity"));
+                                        } catch (Exception e) { quantity = 0; }
+
                                         // Lấy giá nhập (nếu đã nhập trước đó, nếu không thì dùng giá DB)
                                         String inputPriceStr = part.get("inputPrice");
-                                        double inputPrice = (inputPriceStr != null && !inputPriceStr.isEmpty()) 
-                                                            ? Double.parseDouble(inputPriceStr) 
-                                                            : dbPrice;
-                                        
-                                        double subtotal = inputPrice * quantity;
+                                        float inputPrice = 0f;
+                                        if (inputPriceStr != null && !inputPriceStr.isEmpty()) {
+                                            try {
+                                                inputPrice = Float.parseFloat(inputPriceStr);
+                                            } catch (Exception e) {
+                                                inputPrice = dbPrice;
+                                            }
+                                        } else {
+                                            inputPrice = dbPrice;
+                                        }
+
+                                        float subtotal = inputPrice * quantity;
                                         totalAmount += subtotal;
                             %>
                             <tr>
@@ -651,6 +668,18 @@
             if (totalAmountElement) {
                 totalAmountElement.textContent = total.toLocaleString('vi-VN') + ' đ';
             }
+        }
+
+        function confirmSubmit() {
+            const totalAmountText = document.getElementById('totalAmount').textContent;
+            const supplierName = '<%= supplierName != null ? supplierName : "" %>';
+            
+            const message = 'Bạn có chắc chắn muốn xác nhận nhập hàng?\n\n' +
+                          '🏢 Nhà cung cấp: ' + supplierName + '\n' +
+                          '💰 Tổng tiền: ' + totalAmountText + '\n\n' +
+                          'Sau khi xác nhận, hóa đơn sẽ được lưu vào hệ thống và không thể chỉnh sửa.';
+            
+            return confirm(message);
         }
     </script>
 </body>
