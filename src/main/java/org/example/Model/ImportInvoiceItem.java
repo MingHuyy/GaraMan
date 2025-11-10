@@ -2,11 +2,6 @@ package org.example.Model;
 
 import java.io.Serializable;
 
-/**
- * Model ImportInvoiceItem - Chi tiết hóa đơn nhập
- * Liên kết với SupplierPart thay vì chỉ Part (để nhập đúng loại hàng của nhà
- * cung cấp)
- */
 public class ImportInvoiceItem implements Serializable {
 
     private static final long serialVersionUID = 1L;

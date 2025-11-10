@@ -2,9 +2,6 @@ package org.example.Model;
 
 import java.io.Serializable;
 
-/**
- * Model Service - Dịch vụ sửa chữa/bảo dưỡng
- */
 public class Service implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -2,10 +2,6 @@ package org.example.Model;
 
 import java.io.Serializable;
 
-/**
- * Model Part - Phụ tùng ô tô (chỉ chứa tên, không chứa giá/số lượng)
- * Giá và số lượng được lưu trong SupplierPart theo từng nhà cung cấp
- */
 public class Part implements Serializable {
 
     private static final long serialVersionUID = 1L;

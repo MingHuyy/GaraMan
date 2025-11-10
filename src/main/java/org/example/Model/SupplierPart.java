@@ -2,10 +2,7 @@ package org.example.Model;
 
 import java.io.Serializable;
 
-/**
- * Model SupplierPart - Bảng trung gian giữa Supplier và Part (n-n chi tiết)
- * Lưu thông tin riêng của mỗi phụ tùng theo từng nhà cung cấp
- */
+
 public class SupplierPart implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -16,14 +13,12 @@ public class SupplierPart implements Serializable {
     private int quantity;
 
     // Foreign keys
-    private Integer supplierId; // FK to Supplier
-    private Integer partId; // FK to Part
-    
-    // Thông tin bổ sung (không lưu DB, chỉ dùng để hiển thị)
+    private Integer supplierId;
+    private Integer partId;
+
     private transient String partName;
     private transient String supplierName;
 
-    // Constructors
 
     public SupplierPart() {
     }

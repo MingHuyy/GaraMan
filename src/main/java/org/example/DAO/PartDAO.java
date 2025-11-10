@@ -9,9 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO để thao tác với bảng Part và SupplierPart
- */
 public class PartDAO extends DAO {
     
     public PartDAO() {
