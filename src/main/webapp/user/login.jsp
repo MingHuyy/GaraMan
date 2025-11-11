@@ -354,7 +354,7 @@
                 </div>
                 
                 <div class="back-to-home">
-                    <a href="../customer/HomePage.jsp" class="btn-home">
+                    <a href="/" class="btn-home">
                         🏠 Về trang chủ
                     </a>
                 </div>

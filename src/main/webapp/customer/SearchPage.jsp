@@ -211,7 +211,7 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <a href="customer/HomePage.jsp" class="logo">
+        <a href="/" class="logo">
             <span class="logo-icon">🚗</span>
             <span>GaraMan</span>
         </a>

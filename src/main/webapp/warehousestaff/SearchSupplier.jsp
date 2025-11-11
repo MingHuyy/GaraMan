@@ -233,13 +233,13 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="warehousestaff/MainEmployee.jsp" class="logo">
+            <a href="<%= request.getContextPath() %>/warehousestaff/MainEmployee.jsp" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
             <div class="page-title">Chọn Nhà Cung Cấp</div>
             <div class="nav-links">
-                <a href="../partReceiving">← Quay lại</a>
+                <a href="<%= request.getContextPath() %>/partReceiving">← Quay lại</a>
             </div>
         </nav>
     </header>
@@ -248,7 +248,7 @@
     <div class="container">
         <!-- Search Section -->
         <div class="search-section">
-            <form action="../searchSupplier" method="get" class="search-form">
+            <form action="<%= request.getContextPath() %>/searchSupplier" method="get" class="search-form">
                 <input 
                     type="text" 
                     name="keyword" 
@@ -290,7 +290,7 @@
                             <td><%= s.getPhone() != null ? s.getPhone() : "" %></td>
                             <td><%= s.getAddress() != null ? s.getAddress() : "" %></td>
                             <td>
-                                <a href="../partReceiving?supplierId=<%= s.getSupplierId() %>&supplierName=<%= java.net.URLEncoder.encode(s.getName(), "UTF-8") %>" class="btn-choose">
+                                <a href="<%= request.getContextPath() %>/partReceiving?supplierId=<%= s.getSupplierId() %>&supplierName=<%= java.net.URLEncoder.encode(s.getName(), "UTF-8") %>" class="btn-choose">
                                     Chọn
                                 </a>
                             </td>

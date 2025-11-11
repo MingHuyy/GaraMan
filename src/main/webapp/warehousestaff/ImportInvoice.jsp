@@ -23,14 +23,19 @@
             color: #333;
             padding: 10px;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Container */
         .container {
-            max-width: 100%;
+            width: 70%;
             height: 100%;
             margin: 0;
-            overflow-y: auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Success Alert */
@@ -87,48 +92,54 @@
             border-radius: 15px;
             box-shadow: 0 6px 25px rgba(59, 130, 246, 0.15);
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
         }
 
         /* Header */
         .invoice-header {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 30px;
+            padding: 15px;
             text-align: center;
         }
 
         .invoice-header h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .invoice-header p {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.9;
         }
 
         /* Invoice Body */
         .invoice-body {
-            padding: 30px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
         }
 
         /* Info Grid */
         .info-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
-            padding-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
             border-bottom: 2px solid #e5e7eb;
         }
 
         .info-section h3 {
             color: #1e40af;
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -137,8 +148,8 @@
         .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 14px;
+            padding: 4px 0;
+            font-size: 16px;
         }
 
         .info-label {
@@ -148,7 +159,7 @@
 
         .info-value {
             color: #1e40af;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         /* Items Table */
@@ -156,7 +167,7 @@
             color: #1e40af;
             font-size: 16px;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -165,7 +176,7 @@
         .items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .items-table thead {
@@ -173,7 +184,7 @@
         }
 
         .items-table th {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
             font-size: 13px;
             font-weight: 600;
@@ -182,7 +193,7 @@
         }
 
         .items-table td {
-            padding: 12px;
+            padding: 8px;
             font-size: 13px;
             color: #333;
             border-bottom: 1px solid #e5e7eb;
@@ -199,9 +210,9 @@
         /* Total Section */
         .total-section {
             background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            padding: 20px 25px;
+            padding: 12px 20px;
             border-radius: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 0;
             border: 2px solid #6ee7b7;
             box-shadow: 0 2px 10px rgba(16, 185, 129, 0.08);
         }
@@ -210,12 +221,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .total-row:last-child {
             margin-bottom: 0;
-            padding-top: 12px;
+            padding-top: 8px;
             border-top: 2px solid #a7f3d0;
         }
 
@@ -238,7 +249,7 @@
         }
 
         .grand-total-value {
-            font-size: 24px;
+            font-size: 22px;
             color: #10b981;
             font-weight: 700;
         }
@@ -248,13 +259,14 @@
             display: flex;
             gap: 12px;
             justify-content: center;
+            padding: 8px 0;
         }
 
         .btn {
-            padding: 12px 35px;
+            padding: 10px 30px;
             border: none;
             border-radius: 10px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;

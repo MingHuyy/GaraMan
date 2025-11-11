@@ -257,13 +257,13 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="warehousestaff/MainEmployee.jsp" class="logo">
+            <a href="<%= request.getContextPath() %>/warehousestaff/MainEmployee.jsp" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
             <div class="page-title">Chọn Phụ Tùng</div>
             <div class="nav-links">
-                <a href="../partReceiving?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>">← Quay lại</a>
+                <a href="<%= request.getContextPath() %>/partReceiving?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>">← Quay lại</a>
             </div>
         </nav>
     </header>
@@ -278,7 +278,7 @@
 
         <!-- Search Section -->
         <div class="search-section">
-            <form action="../searchPart" method="get" class="search-form">
+            <form action="<%= request.getContextPath() %>/searchPart" method="get" class="search-form">
                 <input type="hidden" name="supplierId" value="<%= supplierId %>" />
                 <input type="hidden" name="supplierName" value="<%= supplierName != null ? supplierName : "" %>" />
                 <input 
@@ -324,7 +324,7 @@
                             <td><%= String.format("%,.0f", sp.getPrice()) %> đ</td>
                             <td><%= sp.getQuantity() %></td>
                             <td>
-                                <form action="../partReceiving" method="post" style="display: inline;">
+                                <form action="<%= request.getContextPath() %>/partReceiving" method="post" style="display: inline;">
                                     <input type="hidden" name="action" value="add" />
                                     <input type="hidden" name="supplierId" value="<%= supplierId %>" />
                                     <input type="hidden" name="supplierName" value="<%= supplierName != null ? supplierName : "" %>" />

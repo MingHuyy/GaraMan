@@ -48,7 +48,8 @@ public class PartReceivingServlet extends HttpServlet {
             handleRemovePart(request, session);
         }
 
-        String redirectUrl = "warehousestaff/PartReceiving.jsp";
+        String contextPath = request.getContextPath();
+        String redirectUrl = contextPath + "/partReceiving";
         if (supplierId != null && !supplierId.isEmpty()) {
             redirectUrl += "?supplierId=" + supplierId;
             if (supplierName != null && !supplierName.isEmpty()) {

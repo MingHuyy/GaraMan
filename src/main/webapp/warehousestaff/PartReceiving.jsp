@@ -422,13 +422,13 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="MainEmployee.jsp" class="logo">
+            <a href="<%= request.getContextPath() %>/warehousestaff/MainEmployee.jsp" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
             <div class="page-title">Nhập Phụ Tùng</div>
             <div class="nav-links">
-                <a href="MainEmployee.jsp">← Quay lại</a>
+                <a href="<%= request.getContextPath() %>/warehousestaff/MainEmployee.jsp">← Quay lại</a>
             </div>
         </nav>
     </header>
@@ -485,7 +485,7 @@
                         <span class="supplier-name"><%= supplierName %></span>
                     <% } %>
                 </div>
-                <a href="../searchSupplier" class="btn-select" style="text-decoration: none; display: inline-block;">
+                <a href="<%= request.getContextPath() %>/searchSupplier" class="btn-select" style="text-decoration: none; display: inline-block;">
                     <%= supplierName != null && !supplierName.isEmpty() ? "Đổi" : "Chọn" %>
                 </a>
             </div>
@@ -579,7 +579,7 @@
                                 </td>
                                 <td class="subtotal"><%= String.format("%,.0f", subtotal) %> đ</td>
                                 <td>
-                                    <form action="../partReceiving" method="post" style="display: inline;">
+                                    <form action="<%= request.getContextPath() %>/partReceiving" method="post" style="display: inline;">
                                         <input type="hidden" name="action" value="remove" />
                                         <input type="hidden" name="supplierId" value="<%= supplierId %>" />
                                         <input type="hidden" name="supplierName" value="<%= supplierName %>" />
@@ -597,7 +597,7 @@
 
                 <% if (selectedParts != null && !selectedParts.isEmpty()) { %>
                 <!-- Total Section -->
-                <form id="receiveForm" method="post" action="../confirmImport" onsubmit="return confirmSubmit()">
+                <form id="receiveForm" method="post" action="<%= request.getContextPath() %>/confirmImport" onsubmit="return confirmSubmit()">
                     <input type="hidden" name="supplierId" value="<%= supplierId %>" />
                     <input type="hidden" name="supplierName" value="<%= supplierName %>" />
                     <%
@@ -642,7 +642,7 @@
 
                 <!-- Add Part Section -->
                 <div class="add-part-section">
-                    <a href="../searchPart?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>" class="btn-add-part">
+                    <a href="<%= request.getContextPath() %>/searchPart?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>" class="btn-add-part">
                         ➕ Chọn phụ tùng
                     </a>
                 </div>

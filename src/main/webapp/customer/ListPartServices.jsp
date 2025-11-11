@@ -316,7 +316,7 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="customer/HomePage.jsp" class="logo">
+            <a href="/" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
