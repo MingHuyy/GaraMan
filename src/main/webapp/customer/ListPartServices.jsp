@@ -316,13 +316,13 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="HomePage.jsp" class="logo">
+            <a href="customer/HomePage.jsp" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
             <div class="page-title">Danh sách Dịch vụ & Phụ tùng</div>
             <div class="nav-links">
-                <a href="SearchPage.jsp">Quay lại tìm kiếm</a>
+                <a href="customer/SearchPage.jsp">Quay lại tìm kiếm</a>
             </div>
         </nav>
     </header>
@@ -362,8 +362,8 @@
                         <a href="part?id=<%= sp.getSupplierPartId() %>" style="text-decoration: none; color: inherit; display: block;" class="part-card">
                             <div class="part-item">
                                 <div class="part-header">
-                                    <h3><%= sp.getPartName() %></h3>
-                                    <span class="part-supplier"><strong>Hãng:</strong> <%= sp.getSupplierName() %></span>
+                                    <h3><%= sp.getPart().getName() %></h3>
+                                    <span class="part-supplier"><strong>Hãng:</strong> <%= sp.getSupplier().getName() %></span>
                                 </div>
                                 
                                 <div class="part-details">

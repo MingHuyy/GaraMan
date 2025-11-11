@@ -1,5 +1,7 @@
 package org.example.DAO;
 
+import org.example.Model.Part;
+import org.example.Model.Supplier;
 import org.example.Model.SupplierPart;
 
 import java.sql.PreparedStatement;
@@ -32,16 +34,22 @@ public class SupplierPartDAO extends DAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    // Tạo Part object
+                    Part part = new Part();
+                    part.setPartId(rs.getInt("part_id"));
+                    part.setName(rs.getString("part_name"));
+
+                    Supplier supplier = new Supplier();
+                    supplier.setSupplierId(rs.getInt("supplier_id"));
+                    supplier.setName(rs.getString("supplier_name"));
+
                     SupplierPart sp = new SupplierPart();
                     sp.setSupplierPartId(rs.getInt("supplier_part_id"));
                     sp.setDescription(rs.getString("description"));
                     sp.setPrice(rs.getFloat("price"));
                     sp.setQuantity(rs.getInt("quantity"));
-                    sp.setSupplierId(rs.getInt("supplier_id"));
-                    sp.setPartId(rs.getInt("part_id"));
-
-                    sp.setPartName(rs.getString("part_name"));
-                    sp.setSupplierName(rs.getString("supplier_name"));
+                    sp.setPart(part);
+                    sp.setSupplier(supplier);
                     
                     supplierParts.add(sp);
                 }
@@ -71,16 +79,24 @@ public class SupplierPartDAO extends DAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                    // Tạo Part object
+                    Part part = new Part();
+                    part.setPartId(rs.getInt("part_id"));
+                    part.setName(rs.getString("part_name"));
+                    
+                    // Tạo Supplier object
+                    Supplier supplier = new Supplier();
+                    supplier.setSupplierId(rs.getInt("supplier_id"));
+                    supplier.setName(rs.getString("supplier_name"));
+                    
+                    // Tạo SupplierPart và set objects
                     SupplierPart sp = new SupplierPart();
                     sp.setSupplierPartId(rs.getInt("supplier_part_id"));
                     sp.setDescription(rs.getString("description"));
                     sp.setPrice(rs.getFloat("price"));
                     sp.setQuantity(rs.getInt("quantity"));
-                    sp.setSupplierId(rs.getInt("supplier_id"));
-                    sp.setPartId(rs.getInt("part_id"));
-
-                    sp.setPartName(rs.getString("part_name"));
-                    sp.setSupplierName(rs.getString("supplier_name"));
+                    sp.setPart(part);
+                    sp.setSupplier(supplier);
                     
                     supplierParts.add(sp);
                 }
@@ -104,15 +120,22 @@ public class SupplierPartDAO extends DAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    Part part = new Part();
+                    part.setPartId(rs.getInt("part_id"));
+                    part.setName(rs.getString("part_name"));
+
+                    Supplier supplier = new Supplier();
+                    supplier.setSupplierId(rs.getInt("supplier_id"));
+                    supplier.setName(rs.getString("supplier_name"));
+
                     SupplierPart sp = new SupplierPart();
                     sp.setSupplierPartId(rs.getInt("supplier_part_id"));
                     sp.setDescription(rs.getString("description"));
                     sp.setPrice(rs.getFloat("price"));
                     sp.setQuantity(rs.getInt("quantity"));
-                    sp.setSupplierId(rs.getInt("supplier_id"));
-                    sp.setPartId(rs.getInt("part_id"));
-                    sp.setPartName(rs.getString("part_name"));
-                    sp.setSupplierName(rs.getString("supplier_name"));
+                    sp.setPart(part);
+                    sp.setSupplier(supplier);
+                    
                     return sp;
                 }
             }

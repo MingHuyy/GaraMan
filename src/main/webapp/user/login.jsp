@@ -317,7 +317,7 @@
                     </div>
                 <% } %>
                 
-                <form action="login" method="post">
+                <form action="../login" method="post">
                     <div class="form-group">
                         <label for="username">Tên đăng nhập</label>
                         <input 
@@ -354,7 +354,7 @@
                 </div>
                 
                 <div class="back-to-home">
-                    <a href="HomePage.jsp" class="btn-home">
+                    <a href="../customer/HomePage.jsp" class="btn-home">
                         🏠 Về trang chủ
                     </a>
                 </div>

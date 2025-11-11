@@ -211,12 +211,12 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <a href="HomePage.jsp" class="logo">
+        <a href="customer/HomePage.jsp" class="logo">
             <span class="logo-icon">🚗</span>
             <span>GaraMan</span>
         </a>
         <div class="nav-links">
-            <a href="login.jsp">Đăng nhập</a>
+            <a href="../user/login.jsp">Đăng nhập</a>
         </div>
     </div>
 
@@ -229,7 +229,7 @@
             </p>
 
             <!-- Search Form -->
-            <form action="search" method="get" class="search-form">
+            <form action="../search" method="get" class="search-form">
                 <input 
                     type="text" 
                     name="keyword" 

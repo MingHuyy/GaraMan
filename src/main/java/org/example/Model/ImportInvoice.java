@@ -1,6 +1,8 @@
 package org.example.Model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +91,18 @@ public class ImportInvoice implements Serializable {
     
     public void setListImportInvoiceItem(List<ImportInvoiceItem> listImportInvoiceItem) {
         this.listImportInvoiceItem = listImportInvoiceItem;
+    }
+
+    public void calculateTotal() {
+        this.totalAmount = listImportInvoiceItem.stream()
+                .map(ImportInvoiceItem::getLineAmount)
+                .reduce(0f, Float::sum);
+    }
+
+    public void generateInvoiceCode() {
+        LocalDate today = LocalDate.now();
+        this.invoiceCode = "PN" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+                + "-" + System.currentTimeMillis() % 10000;
     }
     
     @Override

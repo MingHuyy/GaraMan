@@ -7,25 +7,21 @@ public class ImportInvoiceItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer importItemId;
-    private Integer qty; // Số lượng nhập
-    private float unitPrice; // Đơn giá nhập
-    private Float lineAmount; // Thành tiền (qty * unitPrice)
-
-    // Foreign keys
-    private Integer importId; // FK to ImportInvoice
-    private Integer supplierPartId;// FK to SupplierPart
-
-    // Constructors
+    private Integer qty;
+    private float unitPrice;
+    private Float lineAmount;
+    private Integer importId;
+    private SupplierPart supplierPart;
 
     public ImportInvoiceItem() {
     }
 
-    public ImportInvoiceItem(Integer qty, Float unitPrice, Float lineAmount, Integer importId, Integer supplierPartId) {
+    public ImportInvoiceItem(Integer qty, Float unitPrice, Float lineAmount, Integer importId, SupplierPart supplierPart) {
         this.qty = qty;
         this.unitPrice = unitPrice;
         this.lineAmount = lineAmount;
         this.importId = importId;
-        this.supplierPartId = supplierPartId;
+        this.supplierPart = supplierPart;
     }
 
     // Getters and Setters
@@ -70,23 +66,20 @@ public class ImportInvoiceItem implements Serializable {
         this.importId = importId;
     }
 
+    public SupplierPart getSupplierPart() {
+        return supplierPart;
+    }
+
+    public void setSupplierPart(SupplierPart supplierPart) {
+        this.supplierPart = supplierPart;
+    }
+    
+    // Helper method để lấy supplierPartId từ object
     public Integer getSupplierPartId() {
-        return supplierPartId;
+        return supplierPart != null ? supplierPart.getSupplierPartId() : null;
     }
 
-    public void setSupplierPartId(Integer supplierPartId) {
-        this.supplierPartId = supplierPartId;
-    }
-
-    @Override
-    public String toString() {
-        return "ImportInvoiceItem{" +
-                "importItemId=" + importItemId +
-                ", qty=" + qty +
-                ", unitPrice=" + unitPrice +
-                ", lineAmount=" + lineAmount +
-                ", importId=" + importId +
-                ", supplierPartId=" + supplierPartId +
-                '}';
+    public void calculateLineAmount() {
+        this.lineAmount = this.qty * this.unitPrice;
     }
 }

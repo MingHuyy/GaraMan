@@ -38,7 +38,7 @@ public class SupplierServlet extends HttpServlet {
             request.setAttribute("keyword", keyword);
         }
 
-        request.getRequestDispatcher("SearchSupplier.jsp").forward(request, response);
+        request.getRequestDispatcher("warehousestaff/SearchSupplier.jsp").forward(request, response);
     }
 }
 

@@ -199,21 +199,21 @@
             <!-- Action Buttons -->
             <div class="actions-grid">
                 <!-- Tìm kiếm Dịch vụ/Phụ tùng -->
-                <a href="SearchPage.jsp" class="action-btn">
+                <a href="customer/SearchPage.jsp" class="action-btn">
                     <span class="btn-icon">🔍</span>
                     <span class="btn-text">Tìm Kiếm</span>
                     <span class="btn-description">Tra cứu dịch vụ & phụ tùng</span>
                 </a>
 
                 <!-- Đăng nhập -->
-                <a href="login.jsp" class="action-btn">
+                <a href="../user/login.jsp" class="action-btn">
                     <span class="btn-icon">👤</span>
                     <span class="btn-text">Đăng Nhập</span>
                     <span class="btn-description">Đăng nhập vào hệ thống</span>
                 </a>
 
                 <!-- Đăng ký -->
-                <a href="login.jsp" class="action-btn">
+                <a href="../user/login.jsp" class="action-btn">
                     <span class="btn-icon">📝</span>
                     <span class="btn-text">Đăng Ký</span>
                     <span class="btn-description">Tạo tài khoản mới</span>

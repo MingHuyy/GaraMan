@@ -46,7 +46,7 @@ public class PartServlet extends HttpServlet {
                 }
             }
 
-            request.getRequestDispatcher("SearchPart.jsp").forward(request, response);
+            request.getRequestDispatcher("warehousestaff/SearchPart.jsp").forward(request, response);
             return;
         }
 
@@ -58,20 +58,9 @@ public class PartServlet extends HttpServlet {
                 
                 // Lấy chi tiết SupplierPart
                 SupplierPart supplierPart = supplierPartDAO.getSupplierPartById(supplierPartId);
-
-                if (supplierPart != null) {
-                    System.out.println("Tên: " + supplierPart.getPartName());
-                    System.out.println("Nhà cung cấp: " + supplierPart.getSupplierName());
-                    System.out.println("Giá: " + supplierPart.getPrice());
-                    System.out.println("Số lượng: " + supplierPart.getQuantity());
-                } else {
-                    System.out.println("Không tìm thấy!");
-                }
-                System.out.println("=================================");
-                
                 request.setAttribute("supplierPart", supplierPart);
 
-                request.getRequestDispatcher("Detail.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/Detail.jsp").forward(request, response);
                 
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID");

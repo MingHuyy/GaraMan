@@ -38,8 +38,6 @@ public class ServiceServlet extends HttpServlet {
                 // Lấy chi tiết Service
                 Service service = serviceDAO.getServiceById(serviceId);
                 
-                System.out.println("=================================");
-                System.out.println("ServiceServlet - Chi tiết Service ID: " + serviceId);
                 if (service != null) {
                     System.out.println("Tên: " + service.getName());
                     System.out.println("Giá: " + service.getPrice());
@@ -48,13 +46,12 @@ public class ServiceServlet extends HttpServlet {
                 } else {
                     System.out.println("Không tìm thấy!");
                 }
-                System.out.println("=================================");
 
                 // Gửi dữ liệu lên JSP
                 request.setAttribute("service", service);
                 
                 // Forward về trang chi tiết
-                request.getRequestDispatcher("Detail.jsp").forward(request, response);
+                request.getRequestDispatcher("customer/Detail.jsp").forward(request, response);
                 
             } catch (NumberFormatException e) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid ID");

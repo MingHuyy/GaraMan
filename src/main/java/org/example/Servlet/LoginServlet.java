@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("user/login.jsp");
     }
 
     @Override
@@ -39,15 +39,10 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        System.out.println("========== LOGIN ATTEMPT ==========");
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        System.out.println("===================================");
-
         // Validate input
         if (username == null || username.trim().isEmpty() ||
                 password == null || password.trim().isEmpty()) {
-            response.sendRedirect("login.jsp?error=empty");
+            response.sendRedirect("user/login.jsp?error=empty");
             return;
         }
 
@@ -67,10 +62,10 @@ public class LoginServlet extends HttpServlet {
             session.setMaxInactiveInterval(60 * 30); // 30 phút
 
             // Chuyển hướng đến trang MainEmployee
-            response.sendRedirect("MainEmployee.jsp");
+            response.sendRedirect("warehousestaff/MainEmployee.jsp");
         } else {
             // Đăng nhập thất bại
-            response.sendRedirect("login.jsp?error=invalid");
+            response.sendRedirect("user/login.jsp?error=invalid");
         }
     }
 }

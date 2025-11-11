@@ -43,7 +43,7 @@ public class SearchServlet extends HttpServlet {
         request.setAttribute("services", services);
         request.setAttribute("keyword", keyword);
 
-        request.getRequestDispatcher("ListPartServices.jsp").forward(request, response);
+        request.getRequestDispatcher("customer/ListPartServices.jsp").forward(request, response);
     }
 
     @Override

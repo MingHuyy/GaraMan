@@ -199,7 +199,7 @@
         }
         
         if (employeeName == null) {
-            response.sendRedirect("login.jsp?error=session");
+            response.sendRedirect("../user/login.jsp?error=session");
             return;
         }
     %>
@@ -221,7 +221,7 @@
                         📞 <%= phone %>
                     </div>
                 </div>
-                <a href="login.jsp" class="btn-logout">Đăng xuất</a>
+                <a href="../user/login.jsp" class="btn-logout">Đăng xuất</a>
             </div>
         </nav>
     </header>
@@ -271,7 +271,7 @@
             </a>
 
             <!-- Tìm kiếm -->
-            <a href="SearchPage.jsp" class="action-card">
+            <a href="../customer/SearchPage.jsp" class="action-card">
                 <span class="card-icon">🔍</span>
                 <span class="card-title">Tìm Kiếm</span>
                 <span class="card-description">Tra cứu phụ tùng và dịch vụ</span>

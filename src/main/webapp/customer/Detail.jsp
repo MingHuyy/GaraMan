@@ -289,7 +289,7 @@
     <!-- Header -->
     <header>
         <nav>
-            <a href="HomePage.jsp" class="logo">
+            <a href="customer/HomePage.jsp" class="logo">
                 <span class="logo-icon">🚗</span>
                 <span>GaraMan</span>
             </a>
@@ -297,7 +297,7 @@
             <div class="page-title"><%= pageTitle %></div>
             <% } %>
             <div class="nav-links">
-                <a href="SearchPage.jsp">Tìm kiếm</a>
+                <a href="customer/SearchPage.jsp">Tìm kiếm</a>
             </div>
         </nav>
     </header>
@@ -317,19 +317,19 @@
             
             <div class="detail-card">
                 <div class="detail-header">
-                    <h1><%= supplierPart.getPartName() %></h1>
+                    <h1><%= supplierPart.getPart().getName() %></h1>
                     <span class="detail-badge">⚙️ Phụ Tùng</span>
                 </div>
 
                 <div class="detail-body">
                     <div class="detail-row">
                         <div class="detail-label">📦 Tên phụ tùng</div>
-                        <div class="detail-value"><%= supplierPart.getPartName() %></div>
+                        <div class="detail-value"><%= supplierPart.getPart().getName() %></div>
                     </div>
 
                     <div class="detail-row">
                         <div class="detail-label">🏢 Nhà cung cấp</div>
-                        <div class="detail-value"><%= supplierPart.getSupplierName() %></div>
+                        <div class="detail-value"><%= supplierPart.getSupplier().getName() %></div>
                     </div>
 
                     <% if (supplierPart.getDescription() != null && !supplierPart.getDescription().isEmpty()) { %>
@@ -429,7 +429,7 @@
                     <p>Dữ liệu không tồn tại hoặc đã bị xóa</p>
                     
                     <div class="action-buttons" style="max-width: 400px; margin: 30px auto 0;">
-                        <a href="SearchPage.jsp" class="btn btn-primary">
+                        <a href="customer/SearchPage.jsp" class="btn btn-primary">
                             🔍 Tìm kiếm
                         </a>
                     </div>

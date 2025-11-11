@@ -12,23 +12,18 @@ public class SupplierPart implements Serializable {
     private float price;
     private int quantity;
 
-    // Foreign keys
-    private Integer supplierId;
-    private Integer partId;
-
-    private transient String partName;
-    private transient String supplierName;
-
+    private Supplier supplier;
+    private Part part;
 
     public SupplierPart() {
     }
 
-    public SupplierPart(String description, Float price, Integer quantity, Integer supplierId, Integer partId) {
+    public SupplierPart(String description, Float price, Integer quantity, Supplier supplier, Part part) {
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.supplierId = supplierId;
-        this.partId = partId;
+        this.supplier = supplier;
+        this.part = part;
     }
 
     // Getters and Setters
@@ -65,47 +60,23 @@ public class SupplierPart implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
+    public void setSupplierPartId(int supplierPartId) {
+        this.supplierPartId = supplierPartId;
     }
 
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public Integer getPartId() {
-        return partId;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
-    public void setPartId(Integer partId) {
-        this.partId = partId;
+    public Part getPart() {
+        return part;
     }
 
-    public String getPartName() {
-        return partName;
-    }
-
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    @Override
-    public String toString() {
-        return "SupplierPart{" +
-                "supplierPartId=" + supplierPartId +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", supplierId=" + supplierId +
-                ", partId=" + partId +
-                '}';
+    public void setPart(Part part) {
+        this.part = part;
     }
 }

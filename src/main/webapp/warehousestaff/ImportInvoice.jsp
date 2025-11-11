@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Map" %>
+<%@ page import="org.example.Model.ImportInvoiceItem" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
@@ -19,15 +19,18 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            min-height: 100vh;
+            height: 100vh;
             color: #333;
-            padding: 20px;
+            padding: 10px;
+            overflow: hidden;
         }
 
         /* Container */
         .container {
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow-y: auto;
         }
 
         /* Success Alert */
@@ -311,14 +314,14 @@
         String employeeName = (String) session.getAttribute("employeeName");
         
         if (employeeName == null) {
-            response.sendRedirect("login.jsp?error=session");
+            response.sendRedirect("../user/login.jsp?error=session");
             return;
         }
         
         // Lấy thông tin từ session
         String invoiceCode = (String) session.getAttribute("successInvoiceCode");
-        List<Map<String, String>> invoiceItems =
-                (List<Map<String, String>>) session.getAttribute("invoiceItems");
+        List<ImportInvoiceItem> invoiceItems =
+                (List<ImportInvoiceItem>) session.getAttribute("invoiceItems");
         String supplierName = (String) session.getAttribute("invoiceSupplierName");
         String supplierId = (String) session.getAttribute("invoiceSupplierId");
         Float totalAmountObj = (Float) session.getAttribute("invoiceTotalAmount");
@@ -336,16 +339,6 @@
     %>
 
     <div class="container">
-        <!-- Success Alert -->
-        <div class="success-alert">
-            <div class="success-icon">✅</div>
-            <div class="success-content">
-                <h2>Nhập hàng thành công!</h2>
-                <p>Hóa đơn <strong><%= invoiceCode %></strong> đã được lưu vào hệ thống và số lượng tồn kho đã được cập nhật.<br>
-                   Bạn có thể in hóa đơn này để lưu trữ và thanh toán cho nhà cung cấp.</p>
-            </div>
-        </div>
-
         <!-- Invoice Card -->
         <div class="invoice-card" id="invoiceToPrint">
             <!-- Header -->
@@ -407,14 +400,15 @@
                         <tbody>
                             <%
                                 for (int i = 0; i < invoiceItems.size(); i++) {
-                                    Map<String, String> item = invoiceItems.get(i);
-                                    float price = Float.parseFloat(item.get("price"));
-                                    int quantity = Integer.parseInt(item.get("quantity"));
-                                    float subtotal = Float.parseFloat(item.get("subtotal"));
+                                    ImportInvoiceItem item = invoiceItems.get(i);
+                                    String partName = item.getSupplierPart().getPart().getName();
+                                    int quantity = item.getQty();
+                                    float price = item.getUnitPrice();
+                                    float subtotal = item.getLineAmount();
                             %>
                             <tr>
                                 <td style="text-align: center;"><%= i + 1 %></td>
-                                <td><%= item.get("partName") %></td>
+                                <td><%= partName %></td>
                                 <td class="text-right"><%= quantity %></td>
                                 <td class="text-right"><%= String.format("%,.0f", price) %> đ</td>
                                 <td class="text-right"><%= String.format("%,.0f", subtotal) %> đ</td>

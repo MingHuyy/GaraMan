@@ -11,16 +11,14 @@ import org.example.DAO.ImportInvoiceItemDAO;
 import org.example.DAO.SupplierPartDAO;
 import org.example.Model.ImportInvoice;
 import org.example.Model.ImportInvoiceItem;
+import org.example.Model.SupplierPart;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.net.URLEncoder;
 
 @WebServlet("/confirmImport")
 public class ImportInvoiceServlet extends HttpServlet {
@@ -57,14 +55,11 @@ public class ImportInvoiceServlet extends HttpServlet {
                     (List<java.util.Map<String, String>>) session.getAttribute("selectedParts");
 
             if (selectedParts == null || selectedParts.isEmpty() || supplierIdStr == null) {
-                response.sendRedirect("PartReceiving.jsp?error=nodata");
+                response.sendRedirect("warehousestaff/PartReceiving.jsp?error=nodata");
                 return;
             }
 
-            // Tạo danh sách chi tiết hóa đơn
             List<ImportInvoiceItem> invoiceItems = new ArrayList<>();
-            List<Map<String, String>> invoiceItemsDisplay = new ArrayList<>();
-            float totalAmount = 0f;
 
             for (int i = 0; i < selectedParts.size(); i++) {
                 String quantityStr = request.getParameter("quantity_" + i);
@@ -72,45 +67,30 @@ public class ImportInvoiceServlet extends HttpServlet {
                 String supplierPartIdStr = request.getParameter("supplierPartId_" + i);
 
                 if (quantityStr != null && priceStr != null && supplierPartIdStr != null) {
-                    Map<String, String> part = selectedParts.get(i);
-                    
                     int quantity = Integer.parseInt(quantityStr);
                     float price = Float.parseFloat(priceStr);
-                    float subtotal = quantity * price;
+                    int supplierPartId = Integer.parseInt(supplierPartIdStr);
+
+                    SupplierPart supplierPart = supplierPartDAO.getSupplierPartById(supplierPartId);
 
                     ImportInvoiceItem item = new ImportInvoiceItem();
-                    item.setSupplierPartId(Integer.parseInt(supplierPartIdStr));
+                    item.setSupplierPart(supplierPart);
                     item.setQty(quantity);
                     item.setUnitPrice(price);
-                    item.setLineAmount(subtotal);
+                    item.calculateLineAmount();
 
                     invoiceItems.add(item);
-                    
-                    // Tạo Map để hiển thị trên JSP
-                    Map<String, String> displayItem = new HashMap<>();
-                    displayItem.put("supplierPartId", supplierPartIdStr);
-                    displayItem.put("partName", part.get("partName"));
-                    displayItem.put("quantity", String.valueOf(quantity));
-                    displayItem.put("price", String.valueOf(price));
-                    displayItem.put("subtotal", String.valueOf(subtotal));
-                    invoiceItemsDisplay.add(displayItem);
-                    
-                    totalAmount += subtotal;
                 }
             }
 
-            // Tạo hóa đơn chính
-            LocalDate today = LocalDate.now();
-            String invoiceCode = "PN" + today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-                    + "-" + System.currentTimeMillis() % 10000;
-
             ImportInvoice invoice = new ImportInvoice();
-            invoice.setInvoiceCode(invoiceCode);
             invoice.setDate(new Date());
-            invoice.setTotalAmount(totalAmount);
             invoice.setStatus("COMPLETED");
             invoice.setSupplierId(Integer.parseInt(supplierIdStr));
             invoice.setEmployeeId(employeeId);
+            invoice.setListImportInvoiceItem(invoiceItems);
+            invoice.generateInvoiceCode();
+            invoice.calculateTotal();
 
             // Lưu hóa đơn chính
             int importId = importInvoiceDAO.createImportInvoice(invoice);
@@ -118,7 +98,6 @@ public class ImportInvoiceServlet extends HttpServlet {
             if (importId > 0) {
                 boolean success = true;
 
-                // Lưu chi tiết hóa đơn,cập nhật tồn kho
                 for (ImportInvoiceItem item : invoiceItems) {
                     item.setImportId(importId);
 
@@ -134,27 +113,24 @@ public class ImportInvoiceServlet extends HttpServlet {
                 }
 
                 if (success) {
-                    // Lưu thông tin vào session để hiển thị lại trong JSP
-                    session.setAttribute("successInvoiceCode", invoiceCode);
+                    session.setAttribute("successInvoiceCode", invoice.getInvoiceCode());
                     session.setAttribute("successImportId", importId);
-                    session.setAttribute("invoiceItems", invoiceItemsDisplay);
+                    session.setAttribute("invoiceItems", invoiceItems);
                     session.setAttribute("invoiceSupplierName", supplierName);
                     session.setAttribute("invoiceSupplierId", supplierIdStr);
-                    session.setAttribute("invoiceTotalAmount", totalAmount);
+                    session.setAttribute("invoiceTotalAmount", invoice.getTotalAmount());
 
-                    // Xóa session cũ không cần thiết
                     session.removeAttribute("selectedParts");
                     session.removeAttribute("currentSupplierId");
 
-                    // Chuyển đến trang chi tiết hóa đơn
-                    response.sendRedirect("ImportInvoice.jsp");
+                    response.sendRedirect("warehousestaff/ImportInvoice.jsp");
                 } else {
-                    response.sendRedirect("PartReceiving.jsp?supplierId=" + supplierIdStr +
+                    response.sendRedirect("warehousestaff/PartReceiving.jsp?supplierId=" + supplierIdStr +
                             "&supplierName=" + URLEncoder.encode(supplierName, "UTF-8") +
                             "&error=savefailed");
                 }
             } else {
-                response.sendRedirect("PartReceiving.jsp?supplierId=" + supplierIdStr +
+                response.sendRedirect("warehousestaff/PartReceiving.jsp?supplierId=" + supplierIdStr +
                         "&supplierName=" + URLEncoder.encode(supplierName, "UTF-8") +
                         "&error=createfailed");
             }
@@ -163,7 +139,7 @@ public class ImportInvoiceServlet extends HttpServlet {
             e.printStackTrace();
             String supplierIdStr = request.getParameter("supplierId");
             String supplierName = request.getParameter("supplierName");
-            response.sendRedirect("PartReceiving.jsp?supplierId=" + supplierIdStr +
+            response.sendRedirect("warehousestaff/PartReceiving.jsp?supplierId=" + supplierIdStr +
                     "&supplierName=" + URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") +
                     "&error=exception");
         }

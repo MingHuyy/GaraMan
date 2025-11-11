@@ -384,7 +384,7 @@
         String employeeName = (String) session.getAttribute("employeeName");
         
         if (employeeName == null) {
-            response.sendRedirect("login.jsp?error=session");
+            response.sendRedirect("../user/login.jsp?error=session");
             return;
         }
         
@@ -393,72 +393,29 @@
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String todayStr = today.format(formatter);
         
-        // Lấy supplier từ request (nếu có)
+        // Chỉ lấy dữ liệu từ request và session - KHÔNG xử lý logic
         String supplierId = request.getParameter("supplierId");
         String supplierName = request.getParameter("supplierName");
-        
-        // Kiểm tra xem có đổi nhà cung cấp không
-        String sessionSupplierId = (String) session.getAttribute("currentSupplierId");
-        if (supplierId != null && !supplierId.isEmpty()) {
-            // Nếu đổi nhà cung cấp, reset danh sách phụ tùng
-            if (sessionSupplierId == null || !sessionSupplierId.equals(supplierId)) {
-                session.setAttribute("currentSupplierId", supplierId);
-                session.removeAttribute("selectedParts");
-            }
-        }
-        
-        // Lấy phụ tùng đã chọn (nếu có)
-        String supplierPartId = request.getParameter("supplierPartId");
-        String partName = request.getParameter("partName");
-        String priceStr = request.getParameter("price");
-        String currentQuantityStr = request.getParameter("currentQuantity");
         
         // Lấy danh sách phụ tùng từ session (nếu có)
         java.util.List<java.util.Map<String, String>> selectedParts = 
             (java.util.List<java.util.Map<String, String>>) session.getAttribute("selectedParts");
         
+        // Kiểm tra nếu đổi nhà cung cấp thì xóa toàn bộ parts đã chọn
+        String currentSupplierId = (String) session.getAttribute("currentSupplierId");
+        if (supplierId != null && !supplierId.isEmpty()) {
+            if (currentSupplierId != null && !currentSupplierId.equals(supplierId)) {
+                // Đổi nhà cung cấp -> xóa toàn bộ parts cũ
+                session.removeAttribute("selectedParts");
+                selectedParts = new java.util.ArrayList<>();
+                session.setAttribute("supplierChanged", "true");
+            }
+            // Cập nhật supplierId hiện tại
+            session.setAttribute("currentSupplierId", supplierId);
+        }
+        
         if (selectedParts == null) {
             selectedParts = new java.util.ArrayList<>();
-        }
-        
-        // Nếu có phụ tùng mới được chọn, kiểm tra và thêm vào danh sách
-        String alertMessage = null;
-        if (supplierPartId != null && partName != null && priceStr != null) {
-            // Kiểm tra xem phụ tùng đã được chọn chưa
-            boolean alreadyExists = false;
-            for (java.util.Map<String, String> existingPart : selectedParts) {
-                if (existingPart.get("supplierPartId").equals(supplierPartId)) {
-                    alreadyExists = true;
-                    break;
-                }
-            }
-            
-            if (alreadyExists) {
-                alertMessage = "Phụ tùng này đã được chọn!";
-            } else {
-                java.util.Map<String, String> part = new java.util.HashMap<>();
-                part.put("supplierPartId", supplierPartId);
-                part.put("partName", partName);
-                part.put("price", priceStr);
-                part.put("currentQuantity", currentQuantityStr != null ? currentQuantityStr : "0");
-                part.put("quantity", "1"); // Số lượng mặc định
-                selectedParts.add(part);
-                session.setAttribute("selectedParts", selectedParts);
-            }
-        }
-        
-        // Xử lý xóa phụ tùng
-        String removeIndex = request.getParameter("removeIndex");
-        if (removeIndex != null) {
-            try {
-                int index = Integer.parseInt(removeIndex);
-                if (index >= 0 && index < selectedParts.size()) {
-                    selectedParts.remove(index);
-                    session.setAttribute("selectedParts", selectedParts);
-                }
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
         }
     %>
 
@@ -478,6 +435,36 @@
 
     <!-- Main Content -->
     <div class="container">
+        <%
+            String addSuccess = (String) session.getAttribute("addSuccess");
+            String addError = (String) session.getAttribute("addError");
+            String supplierChanged = (String) session.getAttribute("supplierChanged");
+            
+            if (supplierChanged != null) {
+                session.removeAttribute("supplierChanged");
+        %>
+        <div class="alert-message" style="background: #fef3c7; border-color: #fcd34d; color: #d97706;">
+            <span class="alert-icon">ℹ️</span>
+            <span>Đã đổi nhà cung cấp. Danh sách phụ tùng đã được xóa!</span>
+        </div>
+        <% 
+            } else if (addSuccess != null) {
+                session.removeAttribute("addSuccess");
+        %>
+        <div class="alert-message" style="background: #ecfdf5; border-color: #6ee7b7; color: #059669;">
+            <span class="alert-icon">✓</span>
+            <span>Đã thêm phụ tùng thành công!</span>
+        </div>
+        <% 
+            } else if (addError != null && "exists".equals(addError)) {
+                session.removeAttribute("addError");
+        %>
+        <div class="alert-message">
+            <span class="alert-icon">⚠️</span>
+            <span>Phụ tùng này đã có trong danh sách!</span>
+        </div>
+        <% } %>
+        
         <!-- Info Section -->
         <div class="info-section">
             <div class="info-group">
@@ -498,19 +485,11 @@
                         <span class="supplier-name"><%= supplierName %></span>
                     <% } %>
                 </div>
-                <a href="searchSupplier" class="btn-select" style="text-decoration: none; display: inline-block;">
+                <a href="../searchSupplier" class="btn-select" style="text-decoration: none; display: inline-block;">
                     <%= supplierName != null && !supplierName.isEmpty() ? "Đổi" : "Chọn" %>
                 </a>
             </div>
         </div>
-
-        <!-- Alert Message -->
-        <% if (alertMessage != null) { %>
-        <div class="alert-message">
-            <span class="alert-icon">⚠️</span>
-            <span><%= alertMessage %></span>
-        </div>
-        <% } %>
 
         <!-- Products Section - Luôn hiển thị -->
         <div class="products-section">
@@ -527,11 +506,7 @@
                 </div>
             <% } else { %>
                 <!-- Product Table -->
-                <form id="receiveForm" method="post" action="confirmImport" onsubmit="return confirmSubmit()">
-                    <input type="hidden" name="supplierId" value="<%= supplierId %>" />
-                    <input type="hidden" name="supplierName" value="<%= supplierName %>" />
-                    
-                    <table class="product-table">
+                <table class="product-table">
                         <thead>
                             <tr>
                                 <th style="width: 5%">STT</th>
@@ -604,10 +579,13 @@
                                 </td>
                                 <td class="subtotal"><%= String.format("%,.0f", subtotal) %> đ</td>
                                 <td>
-                                    <a href="PartReceiving.jsp?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName, "UTF-8") %>&removeIndex=<%= i %>" 
-                                       class="btn-remove">
-                                        Xóa
-                                    </a>
+                                    <form action="../partReceiving" method="post" style="display: inline;">
+                                        <input type="hidden" name="action" value="remove" />
+                                        <input type="hidden" name="supplierId" value="<%= supplierId %>" />
+                                        <input type="hidden" name="supplierName" value="<%= supplierName %>" />
+                                        <input type="hidden" name="removeIndex" value="<%= i %>" />
+                                        <button type="submit" class="btn-remove">Xóa</button>
+                                    </form>
                                 </td>
                             </tr>
                             <% 
@@ -617,8 +595,41 @@
                         </tbody>
                     </table>
 
-                    <% if (selectedParts != null && !selectedParts.isEmpty()) { %>
-                    <!-- Total Section -->
+                <% if (selectedParts != null && !selectedParts.isEmpty()) { %>
+                <!-- Total Section -->
+                <form id="receiveForm" method="post" action="../confirmImport" onsubmit="return confirmSubmit()">
+                    <input type="hidden" name="supplierId" value="<%= supplierId %>" />
+                    <input type="hidden" name="supplierName" value="<%= supplierName %>" />
+                    <%
+                        for (int i = 0; i < selectedParts.size(); i++) {
+                            java.util.Map<String, String> part = selectedParts.get(i);
+                            float dbPrice = 0f;
+                            try {
+                                dbPrice = Float.parseFloat(part.get("price"));
+                            } catch (Exception e) { dbPrice = 0f; }
+                            
+                            int quantity = 0;
+                            try {
+                                quantity = Integer.parseInt(part.get("quantity"));
+                            } catch (Exception e) { quantity = 0; }
+                            
+                            String inputPriceStr = part.get("inputPrice");
+                            float inputPrice = 0f;
+                            if (inputPriceStr != null && !inputPriceStr.isEmpty()) {
+                                try {
+                                    inputPrice = Float.parseFloat(inputPriceStr);
+                                } catch (Exception e) {
+                                    inputPrice = dbPrice;
+                                }
+                            } else {
+                                inputPrice = dbPrice;
+                            }
+                    %>
+                    <input type="hidden" name="quantity_<%= i %>" id="hidden_quantity_<%= i %>" value="<%= quantity %>" />
+                    <input type="hidden" name="price_<%= i %>" id="hidden_price_<%= i %>" value="<%= String.format("%.0f", inputPrice) %>" />
+                    <input type="hidden" name="supplierPartId_<%= i %>" value="<%= part.get("supplierPartId") %>" />
+                    <% } %>
+                    
                     <div class="total-section">
                         <div>
                             <span class="total-label">Tổng tiền:</span>
@@ -626,12 +637,12 @@
                         </div>
                         <button type="submit" class="btn-confirm">✓ Xác nhận nhập hàng</button>
                     </div>
-                    <% } %>
                 </form>
+                <% } %>
 
                 <!-- Add Part Section -->
                 <div class="add-part-section">
-                    <a href="searchPart?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>" class="btn-add-part">
+                    <a href="../searchPart?supplierId=<%= supplierId %>&supplierName=<%= java.net.URLEncoder.encode(supplierName != null ? supplierName : "", "UTF-8") %>" class="btn-add-part">
                         ➕ Chọn phụ tùng
                     </a>
                 </div>
@@ -658,6 +669,12 @@
                     if (subtotalCell) {
                         subtotalCell.textContent = subtotal.toLocaleString('vi-VN') + ' đ';
                     }
+                    
+                    // Cập nhật hidden inputs trong form xác nhận
+                    const hiddenQuantity = document.getElementById('hidden_quantity_' + index);
+                    const hiddenPrice = document.getElementById('hidden_price_' + index);
+                    if (hiddenQuantity) hiddenQuantity.value = quantity;
+                    if (hiddenPrice) hiddenPrice.value = price;
                     
                     total += subtotal;
                 }
