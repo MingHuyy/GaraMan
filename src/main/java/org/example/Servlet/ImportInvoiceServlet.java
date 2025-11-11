@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.DAO.ImportInvoiceDAO;
+import org.example.DAO.ImportInvoiceItemDAO;
 import org.example.DAO.SupplierPartDAO;
 import org.example.Model.ImportInvoice;
 import org.example.Model.ImportInvoiceItem;
@@ -27,11 +28,13 @@ public class ImportInvoiceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ImportInvoiceDAO importInvoiceDAO;
     private SupplierPartDAO supplierPartDAO;
+    private ImportInvoiceItemDAO importInvoiceItemDAO;
 
     @Override
     public void init() throws ServletException {
         importInvoiceDAO = new ImportInvoiceDAO();
         supplierPartDAO = new SupplierPartDAO();
+        importInvoiceItemDAO = new ImportInvoiceItemDAO();
     }
 
     @Override
@@ -119,7 +122,7 @@ public class ImportInvoiceServlet extends HttpServlet {
                 for (ImportInvoiceItem item : invoiceItems) {
                     item.setImportId(importId);
 
-                    if (!importInvoiceDAO.createImportInvoiceItem(item)) {
+                    if (!importInvoiceItemDAO.createImportInvoiceItem(item)) {
                         success = false;
                         break;
                     }

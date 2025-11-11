@@ -58,9 +58,7 @@ public class PartServlet extends HttpServlet {
                 
                 // Lấy chi tiết SupplierPart
                 SupplierPart supplierPart = supplierPartDAO.getSupplierPartById(supplierPartId);
-                
-                System.out.println("=================================");
-                System.out.println("PartServlet - Chi tiết Part ID: " + supplierPartId);
+
                 if (supplierPart != null) {
                     System.out.println("Tên: " + supplierPart.getPartName());
                     System.out.println("Nhà cung cấp: " + supplierPart.getSupplierName());
